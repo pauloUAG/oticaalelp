@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ótica Alê: Entenda o que você está escolhendo no seu óculos</title>
+<meta name="description" content="Exame com hora marcada e cada passo explicado, do grau à lente. Você monta seu óculos dentro do que cabe no seu bolso, em Belém, Ananindeua e Castanhal.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Archivo:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --tinta:#232323;--cinza:#616161;--linha:#DADFE5;
+  --fundo:#FFFFFF;--fundo-alt:#F9FAFB;
+  --rosa:#8C5A52;--rosa-escuro:#6E4640;--dourado:#D9B08C;--verde:#4A7862;
+  --display:"Fraunces",Georgia,serif;--corpo:"Archivo",system-ui,sans-serif;--mono:"DM Mono",ui-monospace,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--fundo);color:var(--tinta);font-family:var(--corpo);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1040px;margin:0 auto;padding:0 24px}
+.mono{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--rosa);outline-offset:3px;border-radius:2px}
+
+/* ---- botão soft-ui: cantos de 8px, sombra em camadas, brilho interno ---- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;font-family:var(--corpo);font-size:16px;font-weight:700;letter-spacing:.02em;text-transform:uppercase;padding:20px 40px;border:0;border-radius:8px;cursor:pointer;text-decoration:none;transition:transform .18s ease,background .18s ease;
+  box-shadow:0 20px 30px -12px rgba(140,90,82,.35),0 -4px 6px 0 rgba(0,0,0,.15) inset,0 4px 6px 0 rgba(255,255,255,.2) inset;}
+.btn-principal{background:var(--rosa);color:#fff}
+.btn-principal:hover{transform:translateY(-2px);background:var(--rosa-escuro)}
+.btn-fantasma{background:transparent;color:var(--rosa);border:1.5px solid var(--rosa);box-shadow:none}
+.btn-fantasma:hover{background:rgba(140,90,82,.06)}
+.btn-bloco{width:100%}
+.btn-whatsapp{background:#25D366;color:#fff;box-shadow:0 20px 30px -12px rgba(37,211,102,.4),0 -4px 6px 0 rgba(0,0,0,.15) inset,0 4px 6px 0 rgba(255,255,255,.2) inset}
+.btn-whatsapp:hover{transform:translateY(-2px);background:#1FBD5A}
+.btn-whatsapp svg{width:20px;height:20px;flex:0 0 auto}
+
+.secao{padding:76px 0}
+.secao-alt{background:var(--fundo-alt)}
+.secao-titulo{font-family:var(--display);font-weight:600;font-size:clamp(28px,4vw,42px);line-height:1.15;letter-spacing:-.01em;text-align:center;max-width:760px;margin:0 auto}
+.secao-intro{margin-top:14px;max-width:600px;margin-left:auto;margin-right:auto;text-align:center;color:var(--cinza);font-size:17px}
+
+/* ---- hero: coluna de texto + player vertical ---- */
+.hero{background:var(--fundo-alt);padding:64px 0 76px;position:relative;overflow:hidden}
+.aneis{position:absolute;top:-180px;left:-160px;width:520px;height:520px;opacity:.14;pointer-events:none;border-radius:50%;
+  background:repeating-radial-gradient(circle at center,transparent 0 22px,rgba(140,90,82,.5) 22px 23px)}
+.hero .wrap{position:relative;z-index:1}
+.hero-grade{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(260px,.95fr);gap:56px;align-items:center}
+
+.hero-logo{display:flex;align-items:center;gap:12px;margin-bottom:32px}
+.hero-logo .icone{flex:0 0 44px;width:44px;height:44px;border-radius:12px;background:var(--tinta);display:flex;align-items:center;justify-content:center}
+.hero-logo .icone svg{width:24px;height:24px;stroke:#fff}
+.hero-logo .nome{font-family:var(--display);font-size:20px;font-weight:600;letter-spacing:-.01em}
+.hero-logo .nome span{color:var(--rosa)}
+
+.hero-texto .mono{color:var(--rosa);margin-bottom:16px}
+.hero-texto h1{font-family:var(--display);font-weight:600;line-height:1.14;letter-spacing:-.02em;font-size:clamp(30px,3.6vw,44px);max-width:520px;margin:0 0 18px}
+.hero-texto h1 em{font-style:normal;font-weight:700;color:var(--rosa)}
+.hero-texto p{font-size:16.5px;color:var(--cinza);max-width:460px;margin:0 0 30px}
+
+.player{width:100%;max-width:280px;margin-left:auto;margin-right:0;border-radius:22px;overflow:hidden;position:relative;aspect-ratio:9/16;background:linear-gradient(160deg,var(--rosa) 0%,var(--rosa-escuro) 100%);
+  box-shadow:0 40px 70px -20px rgba(140,90,82,.45)}
+.player-video{position:absolute;inset:0;width:100%;height:100%;border:0}
+.player-clique-som{position:absolute;inset:0;z-index:2;background:transparent;border:0;cursor:pointer;display:flex;align-items:flex-end;justify-content:center;padding-bottom:16px}
+.player-clique-som.ativado{display:none}
+.player-som-selo{background:rgba(35,35,35,.65);color:#fff;font-family:var(--corpo);font-size:12px;font-weight:600;padding:8px 14px;border-radius:999px;backdrop-filter:blur(2px)}
+
+@media(max-width:860px){
+  .hero-grade{grid-template-columns:1fr;gap:28px;text-align:center}
+  .hero-logo{justify-content:center}
+  .hero-texto h1,.hero-texto p{max-width:none;margin-left:auto;margin-right:auto}
+  .player{margin:0 auto;max-width:min(360px,calc(100vw - 64px))}
+}
+@media(max-width:480px){
+  .hero{padding:36px 0 44px}
+  .hero-logo{margin-bottom:18px}
+  .hero-texto .mono{margin-bottom:10px}
+  .hero-texto h1{font-size:22px;line-height:1.22;margin-bottom:12px}
+  .hero-texto p{font-size:15px;margin-bottom:20px}
+  .player{max-width:min(340px,calc(100vw - 64px))}
+}
+
+.secao-titulo em{font-style:normal;color:var(--rosa)}
+
+/* ---- bloco 1: selo + barra de confiança no hero ---- */
+.hero-selo{margin-top:18px;font-size:13px;color:var(--cinza)}
+
+/* ---- bloco 3: grid de exclusões (o mais importante da página) ---- */
+.exclusoes-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:44px}
+.exclusao-card{background:var(--fundo);border:1px solid var(--linha);border-radius:14px;padding:16px 18px;display:flex;align-items:center;gap:14px;
+  box-shadow:0 26px 36px -24px rgba(35,35,35,.12),0 2px 4px 0 rgba(255,255,255,.6) inset}
+.exclusao-card .icone{flex:0 0 34px;width:34px;height:34px;border-radius:10px;background:var(--fundo-alt);display:flex;align-items:center;justify-content:center}
+.exclusao-card .icone svg{width:18px;height:18px;stroke:var(--rosa)}
+.exclusao-card p{color:var(--tinta);font-size:13.5px;line-height:1.35}
+.exclusao-card p strong{font-weight:700}
+
+/* ---- bloco 5: três decisões, cards numerados lado a lado ---- */
+.cards-num{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:44px}
+.card-num{background:var(--fundo);border:1px solid var(--linha);border-radius:16px;padding:22px 22px 24px;display:flex;flex-direction:column;gap:12px;
+  box-shadow:0 30px 40px -24px rgba(35,35,35,.12),0 2px 4px 0 rgba(255,255,255,.6) inset}
+.card-num-topo{display:flex;align-items:center;gap:12px}
+.card-num .numero{flex:0 0 auto;width:38px;height:38px;border-radius:50%;background:linear-gradient(155deg,var(--dourado),var(--rosa));color:#fff;font-family:var(--display);font-size:15px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.card-num h3{font-family:var(--display);font-size:18px;font-weight:600;letter-spacing:-.01em;margin:0}
+.card-num p{color:var(--cinza);font-size:14.5px;margin:0}
+
+/* ---- bloco 6: autoridade, lista com medalha ---- */
+.autoridade-lista{max-width:640px;margin:40px auto 0;list-style:none}
+.autoridade-lista li{display:flex;gap:14px;align-items:flex-start;padding:14px 0;border-bottom:1px solid var(--linha);font-size:16px}
+.autoridade-lista li:last-child{border-bottom:0}
+.autoridade-lista .medalha{flex:0 0 auto;font-size:20px;line-height:1.3}
+
+/* ---- bloco 8: checklist com ✓ verde ---- */
+.check-lista{max-width:640px;margin:40px auto 0;list-style:none}
+.check-lista li{display:flex;gap:14px;align-items:flex-start;padding:12px 0;border-bottom:1px solid var(--linha);font-size:15.5px;color:var(--tinta)}
+.check-lista li:last-child{border-bottom:0}
+.check-lista .marca{flex:0 0 22px;height:22px;border-radius:50%;background:var(--verde);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;margin-top:1px}
+
+/* ---- bloco 9: oferta em destaque, painel único com checklist + CTA ---- */
+.oferta-painel{max-width:600px;margin:40px auto 0;background:var(--fundo);border:1px solid var(--linha);border-top:4px solid var(--rosa);border-radius:18px;padding:36px 36px 40px;text-align:center;
+  box-shadow:0 44px 70px -28px rgba(35,35,35,.22),0 2px 4px 0 rgba(255,255,255,.6) inset}
+.oferta-painel>p{color:var(--cinza);font-size:16.5px;margin-bottom:8px}
+.oferta-painel>p strong{color:var(--tinta)}
+.oferta-rotulo{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--rosa)!important;margin:26px 0 0!important;text-align:left}
+.oferta-painel .check-lista{text-align:left;margin-top:14px}
+.oferta-antes-botao{margin-top:26px!important;font-size:15px!important}
+.oferta-painel .btn{margin-top:22px;width:100%}
+
+/* ---- quiz de qualificação, dentro do painel de oferta ---- */
+.quiz{margin-top:22px;text-align:left}
+.quiz[hidden]{display:none}
+.quiz-intro{font-size:13.5px;color:var(--cinza);margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid var(--linha)}
+.quiz-progresso{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--rosa);margin-bottom:12px}
+.quiz-cartao{background:var(--fundo-alt);border:1.5px solid var(--rosa);border-radius:14px;padding:20px 20px 22px;box-shadow:0 20px 30px -20px rgba(140,90,82,.3)}
+.quiz-pergunta{font-family:var(--display);font-size:17px;font-weight:600;line-height:1.35;margin-bottom:16px}
+.quiz-opcoes{display:flex;flex-direction:column;gap:10px}
+.quiz-opcao{border:1.5px solid var(--linha);background:var(--fundo);border-radius:10px;padding:14px 16px;font-family:var(--corpo);font-size:14.5px;font-weight:600;color:var(--tinta);cursor:pointer;text-align:left;transition:border-color .15s ease,background .15s ease}
+.quiz-opcao:hover{border-color:var(--rosa)}
+.quiz-nav{display:flex;justify-content:space-between;align-items:center;margin-top:18px;gap:12px}
+.quiz-voltar{background:transparent;border:0;color:var(--cinza);font-size:12.5px;font-weight:600;cursor:pointer;text-decoration:underline;padding:0}
+.quiz-voltar[hidden]{visibility:hidden}
+.quiz-resumo{background:var(--fundo-alt);border-radius:12px;padding:16px 18px;margin-bottom:18px}
+.quiz-resumo p{font-size:13.5px;color:var(--cinza);margin-bottom:4px}
+.quiz-resumo p strong{color:var(--tinta)}
+
+/* ---- bloco 11: FAQ (accordion nativo) ---- */
+.faq{max-width:680px;margin:44px auto 0}
+.faq details{border-bottom:1px solid var(--linha);padding:18px 0}
+.faq summary{cursor:pointer;font-family:var(--display);font-size:18px;font-weight:600;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:16px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";font-family:var(--corpo);font-size:22px;color:var(--rosa);flex:0 0 auto}
+.faq details[open] summary::after{content:"–"}
+.faq p{margin-top:12px;color:var(--cinza);font-size:15.5px}
+
+/* ---- linha de fecho (afirmação de destaque ao fim de uma seção) ---- */
+.fecho{margin:36px auto 0;max-width:640px;text-align:center;font-family:var(--display);font-size:clamp(19px,2.4vw,24px);font-weight:500;line-height:1.4}
+.fecho strong{color:var(--rosa)}
+
+/* ---- história em coluna única ---- */
+.historia{max-width:680px;margin:44px auto 0}
+.historia p{margin-bottom:18px;color:var(--cinza);font-size:16.5px}
+.historia p strong{color:var(--tinta)}
+
+/* ---- prova virtual (câmera + rastreamento facial) ---- */
+.ar-caixa{max-width:440px;margin:44px auto 0;background:var(--fundo);border-radius:20px;padding:26px;text-align:center;
+  box-shadow:0 40px 60px -30px rgba(35,35,35,.2);border:1px solid var(--linha)}
+.ar-visor{position:relative;aspect-ratio:4/3;border-radius:14px;overflow:hidden;background:var(--tinta);margin-bottom:18px}
+.ar-visor canvas{position:absolute;inset:0;width:100%;height:100%}
+.ar-msg{position:absolute;inset:0;z-index:2;display:flex;align-items:center;justify-content:center;padding:20px;color:#fff;font-size:14px;text-align:center;background:rgba(35,35,35,.4)}
+.ar-msg:empty{display:none}
+.ar-controles{display:flex;flex-direction:column;gap:16px}
+.ar-controles[hidden]{display:none}
+.ar-linha{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.ar-opcao{border:1.5px solid var(--linha);background:var(--fundo);border-radius:999px;padding:8px 16px;font-family:var(--corpo);font-size:13.5px;font-weight:600;color:var(--tinta);cursor:pointer;transition:border-color .15s ease,background .15s ease}
+.ar-opcao:hover{border-color:var(--rosa)}
+.ar-opcao.ativa{background:var(--tinta);border-color:var(--tinta);color:#fff}
+.ar-calibragem{display:grid;gap:10px;text-align:left;background:var(--fundo-alt);border-radius:12px;padding:14px 16px}
+.ar-slider{display:flex;flex-direction:column;gap:4px}
+.ar-slider label{font-size:11.5px;color:var(--cinza);display:flex;justify-content:space-between}
+.ar-slider input{width:100%;accent-color:var(--rosa)}
+
+/* ---- prova social: galeria masonry de prints ---- */
+.galeria-prints{column-count:4;column-gap:14px;margin-top:44px}
+.print-item{display:block;break-inside:avoid;margin-bottom:14px;border-radius:16px;overflow:hidden;position:relative;text-decoration:none;
+  border:1px solid var(--linha);box-shadow:0 26px 36px -24px rgba(35,35,35,.18);transition:transform .18s ease}
+.print-item:hover{transform:translateY(-3px)}
+.print-item img{display:block;width:100%}
+
+/* lightbox sem JS, via :target */
+.lightbox-alvo{display:none;position:fixed;inset:0;z-index:200;align-items:center;justify-content:center;padding:30px}
+.lightbox-alvo:target{display:flex}
+.lightbox-fundo{position:absolute;inset:0;background:rgba(35,35,35,.78)}
+.lightbox-conteudo{position:relative;max-width:380px;width:100%}
+.lightbox-conteudo img{display:block;width:100%;border-radius:18px}
+.lightbox-fechar{position:absolute;top:-42px;right:0;width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.15);color:#fff;display:flex;align-items:center;justify-content:center;font-size:20px;text-decoration:none}
+
+@media(max-width:860px){.galeria-prints{column-count:2}}
+
+.rodape{padding:40px 0 60px;text-align:center;color:var(--cinza);font-size:14px}
+.rodape .marca{font-family:var(--display);font-size:19px;font-weight:600;letter-spacing:-.01em;color:var(--tinta)}
+.rodape .mono{color:#9FA8B6;margin-top:14px}
+
+.placeholder{color:#B3261E;font-weight:600}
+
+@media(max-width:860px){
+  .exclusoes-grid{grid-template-columns:repeat(2,1fr)}
+  .cards-num{grid-template-columns:1fr}
+}
+@media(max-width:560px){
+  .secao{padding:56px 0}
+  .final{padding:48px 26px;margin:0 16px 60px}
+  .oferta{padding:32px 24px}
+  .exclusoes-grid{grid-template-columns:1fr}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <div class="aneis" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="hero-grade">
+      <div class="hero-texto">
+        <div class="hero-logo">
+          <span class="icone" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round"><circle cx="6.5" cy="14" r="3.6"/><circle cx="17.5" cy="14" r="3.6"/><path d="M10.1 14h3.8M3 12l1-4M21 12l-1-4M4 8h2.5M17.5 8H20"/></svg>
+          </span>
+          <p class="nome">Ótica Alê <span>Eyewear</span></p>
+        </div>
+        <p class="mono">Para quem vai comprar óculos e dessa vez quer entender o que está escolhendo</p>
+        <h1>Imagine escolher seu óculos sabendo exatamente o que você está comprando</h1>
+        <p>A gente explica cada passo, do exame até a lente, e monta o seu óculos <strong style="color:var(--tinta)">dentro do que cabe no seu bolso.</strong></p>
+        <p class="hero-selo">Exame com hora marcada · Belém, Ananindeua e Castanhal</p>
+      </div>
+
+      <div class="player" role="group" aria-label="Ótica Alê, vídeo ambiente">
+        <iframe class="player-video" src="https://www.youtube.com/embed/xlKPkksxh04?rel=0&playsinline=1&modestbranding=1&loop=1&playlist=xlKPkksxh04&autoplay=1&mute=1&controls=0&enablejsapi=1" title="Ótica Alê Eyewear" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe>
+        <button type="button" class="player-clique-som" aria-label="Ativar som do vídeo">
+          <span class="player-som-selo">🔊 Toque para ativar o som</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="secao secao-alt">
+  <div class="wrap">
+    <h2 class="secao-titulo">Talvez seja seu primeiro óculos. Talvez seja o quinto. Em nenhum deles alguém te explicou direito o que você estava comprando.</h2>
+    <div class="historia">
+      <p style="text-align:center">Você aprendeu a escolher sapato, celular, geladeira. Óculos, não. Aparecem palavras que ninguém traduz (antirreflexo, alto índice, free form) e você acaba decidindo no escuro uma coisa que vai carregar no rosto todos os dias pelos próximos anos.</p>
+      <p style="text-align:center">Não é falta de atenção sua. <strong>A informação nunca chegou até você.</strong></p>
+    </div>
+    <p class="fecho">Dessa vez vai ser diferente: <strong>você vai entender cada escolha antes de fazer.</strong></p>
+  </div>
+</section>
+
+<section class="secao">
+  <div class="wrap">
+    <h2 class="secao-titulo">Aqui você resolve seu óculos <em>sem precisar</em>:</h2>
+    <div class="exclusoes-grid">
+      <div class="exclusao-card">
+        <span class="icone" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.7.3-1 .9-1 1.7v.3"/><circle cx="12" cy="17" r=".6" fill="currentColor" stroke="none"/></svg></span>
+        <p><strong>Já entender de lente:</strong> a gente traduz cada opção na hora</p>
+      </div>
+      <div class="exclusao-card">
+        <span class="icone" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="3" width="12" height="18" rx="1"/><path d="M9 8h6M9 12h6M9 16h4"/></svg></span>
+        <p><strong>Levar receita:</strong> o exame é feito aqui mesmo</p>
+      </div>
+      <div class="exclusao-card">
+        <span class="icone" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg></span>
+        <p><strong>Passar o dia na loja:</strong> são cerca de 20 minutos, com hora marcada</p>
+      </div>
+      <div class="exclusao-card">
+        <span class="icone" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18"/><circle cx="16" cy="14" r="1" fill="currentColor" stroke="none"/></svg></span>
+        <p><strong>Estourar o orçamento:</strong> você diz quanto quer investir e a gente monta em cima disso</p>
+      </div>
+      <div class="exclusao-card">
+        <span class="icone" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 4h5a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1h-5"/><path d="M9 8l-4 4 4 4"/><path d="M5 12h11"/></svg></span>
+        <p><strong>Decidir no mesmo dia:</strong> a receita é sua e você leva pra onde quiser</p>
+      </div>
+      <div class="exclusao-card">
+        <span class="icone" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7l2-3h4l2 3"/><circle cx="12" cy="13.5" r="3.5"/></svg></span>
+        <p><strong>Adivinhar se a armação combina:</strong> experimente antes, pela câmera</p>
+      </div>
+    </div>
+    <p class="fecho">O que a gente faz é simples: <strong>explica, mede, e deixa você decidir.</strong></p>
+  </div>
+</section>
+
+<section class="secao secao-alt">
+  <div class="wrap" style="display:flex;justify-content:center">
+    <div class="player" role="group" aria-label="Ótica Alê, vídeo" style="margin:0">
+      <iframe class="player-video" src="https://www.youtube.com/embed/Z4Mr2UY1PVQ?rel=0&playsinline=1&modestbranding=1&loop=1&playlist=Z4Mr2UY1PVQ&autoplay=1&mute=1&controls=0&enablejsapi=1" title="Ótica Alê Eyewear" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe>
+      <button type="button" class="player-clique-som" aria-label="Ativar som do vídeo">
+        <span class="player-som-selo">🔊 Toque para ativar o som</span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<section class="secao">
+  <div class="wrap">
+    <h2 class="secao-titulo">Comece entendendo o que combina com você.</h2>
+    <p class="secao-intro">Libere a câmera e veja a armação no seu rosto agora. <strong style="color:var(--tinta)">Sem cadastro, sem falar com ninguém, sem sair de casa.</strong><br>A câmera roda só no seu navegador. Nada é gravado.</p>
+
+    <div class="ar-caixa">
+      <div class="ar-visor">
+        <canvas id="jeeFaceFilterCanvas"></canvas>
+        <p class="ar-msg" id="arMsg"></p>
+      </div>
+
+      <button class="btn btn-principal btn-bloco" id="arAtivar">Ativar câmera e experimentar</button>
+
+      <div class="ar-controles" id="arControles" hidden>
+        <div class="ar-linha">
+          <button class="ar-opcao ativa" data-modelo="grau">Óculos de grau</button>
+          <button class="ar-opcao" data-modelo="sol">Óculos de sol</button>
+          <button class="ar-opcao" data-modelo="m2">Estilo 2</button>
+          <button class="ar-opcao" data-modelo="m3">Estilo 3</button>
+          <button class="ar-opcao" data-modelo="m5">Estilo 5</button>
+        </div>
+        <div class="ar-calibragem">
+          <div class="ar-slider">
+            <label><span>Altura</span><span id="arValAltura">44</span></label>
+            <input type="range" id="arAltura" min="-150" max="150" value="44" step="1">
+          </div>
+          <div class="ar-slider">
+            <label><span>Horizontal</span><span id="arValHorizontal">0</span></label>
+            <input type="range" id="arHorizontal" min="-150" max="150" value="0" step="1">
+          </div>
+          <div class="ar-slider">
+            <label><span>Tamanho</span><span id="arValTamanho">100%</span></label>
+            <input type="range" id="arTamanho" min="10" max="300" value="100" step="5">
+          </div>
+          <div class="ar-slider">
+            <label><span>Profundidade</span><span id="arValProfundidade">35</span></label>
+            <input type="range" id="arProfundidade" min="0" max="80" value="35" step="1">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="secao secao-alt">
+  <div class="wrap">
+    <h2 class="secao-titulo">Comprar óculos é só isso aqui. Três decisões, e você vai entender as três.</h2>
+    <div class="cards-num">
+      <div class="card-num">
+        <div class="card-num-topo">
+          <span class="numero">01</span>
+          <h3>Seu grau</h3>
+        </div>
+        <p>Descoberto no exame, em cerca de 20 minutos. Você sai sabendo quanto e como enxerga, com a receita na mão.</p>
+      </div>
+      <div class="card-num">
+        <div class="card-num-topo">
+          <span class="numero">02</span>
+          <h3>Sua armação</h3>
+        </div>
+        <p>A que combina com o seu rosto e com você. Dá pra experimentar pela câmera antes mesmo de vir à loja.</p>
+      </div>
+      <div class="card-num">
+        <div class="card-num-topo">
+          <span class="numero">03</span>
+          <h3>Sua lente</h3>
+        </div>
+        <p>A parte que mais muda o seu dia e a que ninguém traduz. A gente explica o que cada opção faz, em português, e o que muda de uma para outra.</p>
+      </div>
+    </div>
+    <p class="fecho">Uma decisão por vez, entendendo cada uma. <strong>Sem pressa e sem pressão.</strong></p>
+  </div>
+</section>
+
+<section class="secao">
+  <div class="wrap">
+    <h2 class="secao-titulo">A gente começa perguntando quanto você quer investir.</h2>
+    <div class="historia" style="text-align:center">
+      <p>Parece óbvio, mas quase ninguém começa por aí. Você diz o valor que cabe pra você, e a gente monta o <strong>melhor óculos possível dentro dele:</strong> armação e lente que funcionam de verdade para o seu grau.</p>
+      <p>Tem opção para orçamento apertado e tem opção completa. <strong>As duas são boas, e você vai entender exatamente o que muda entre elas.</strong></p>
+    </div>
+    <p class="fecho">Nenhuma surpresa no fechamento. Você sabe o valor antes de decidir qualquer coisa.</p>
+  </div>
+</section>
+
+<section class="secao secao-alt">
+  <div class="wrap">
+    <h2 class="secao-titulo">Quem vai te explicar tudo isso</h2>
+    <ul class="autoridade-lista">
+      <li><span class="medalha" aria-hidden="true">🏅</span><span><span class="placeholder">[X] anos</span> atendendo no Pará, em 3 lojas</span></li>
+      <li><span class="medalha" aria-hidden="true">🏅</span><span>Exame com <strong>optometrista responsável</strong> (<span class="placeholder">[CONFIRMAR nome e registro]</span>)</span></li>
+      <li><span class="medalha" aria-hidden="true">🏅</span><span><strong>Lente própria Ale Vision</strong>, calculada com as suas medidas e fabricação digital free form</span></li>
+      <li><span class="medalha" aria-hidden="true">🏅</span><span><span class="placeholder">[X] mil óculos</span> entregues</span></li>
+    </ul>
+    <p class="secao-intro placeholder" style="margin-top:24px">[CONFIRMAR todos os números acima]</p>
+  </div>
+</section>
+
+<section class="secao">
+  <div class="wrap">
+    <h2 class="secao-titulo">ELAS SAÍRAM DAQUI ENTENDENDO O QUE COMPRARAM</h2>
+
+    <div class="galeria-prints">
+      <a href="#print-1" class="print-item"><img src="prints/print-1.jpeg" alt="[Substituir por depoimento real de cliente Ótica Alê]" loading="lazy"></a>
+      <a href="#print-2" class="print-item"><img src="prints/print-2.jpeg" alt="[Substituir por depoimento real de cliente Ótica Alê]" loading="lazy"></a>
+      <a href="#print-3" class="print-item"><img src="prints/print-3.webp" alt="[Substituir por depoimento real de cliente Ótica Alê]" loading="lazy"></a>
+      <a href="#print-4" class="print-item"><img src="prints/print-4.jpeg" alt="[Substituir por depoimento real de cliente Ótica Alê]" loading="lazy"></a>
+      <a href="#print-5" class="print-item"><img src="prints/print-5.jpeg" alt="[Substituir por depoimento real de cliente Ótica Alê]" loading="lazy"></a>
+      <a href="#print-6" class="print-item"><img src="prints/print-6.jpeg" alt="[Substituir por depoimento real de cliente Ótica Alê]" loading="lazy"></a>
+      <a href="#print-7" class="print-item"><img src="prints/print-7.jpg" alt="[Substituir por depoimento real de cliente Ótica Alê]" loading="lazy"></a>
+    </div>
+  </div>
+
+  <!-- Lightbox: mesma imagem ampliada, sem depender de JavaScript -->
+  <div class="lightbox-alvo" id="print-1"><a href="#" class="lightbox-fundo" aria-label="Fechar"></a><div class="lightbox-conteudo"><a href="#" class="lightbox-fechar" aria-label="Fechar">&times;</a><img src="prints/print-1.jpeg" alt=""></div></div>
+  <div class="lightbox-alvo" id="print-2"><a href="#" class="lightbox-fundo" aria-label="Fechar"></a><div class="lightbox-conteudo"><a href="#" class="lightbox-fechar" aria-label="Fechar">&times;</a><img src="prints/print-2.jpeg" alt=""></div></div>
+  <div class="lightbox-alvo" id="print-3"><a href="#" class="lightbox-fundo" aria-label="Fechar"></a><div class="lightbox-conteudo"><a href="#" class="lightbox-fechar" aria-label="Fechar">&times;</a><img src="prints/print-3.webp" alt=""></div></div>
+  <div class="lightbox-alvo" id="print-4"><a href="#" class="lightbox-fundo" aria-label="Fechar"></a><div class="lightbox-conteudo"><a href="#" class="lightbox-fechar" aria-label="Fechar">&times;</a><img src="prints/print-4.jpeg" alt=""></div></div>
+  <div class="lightbox-alvo" id="print-5"><a href="#" class="lightbox-fundo" aria-label="Fechar"></a><div class="lightbox-conteudo"><a href="#" class="lightbox-fechar" aria-label="Fechar">&times;</a><img src="prints/print-5.jpeg" alt=""></div></div>
+  <div class="lightbox-alvo" id="print-6"><a href="#" class="lightbox-fundo" aria-label="Fechar"></a><div class="lightbox-conteudo"><a href="#" class="lightbox-fechar" aria-label="Fechar">&times;</a><img src="prints/print-6.jpeg" alt=""></div></div>
+  <div class="lightbox-alvo" id="print-7"><a href="#" class="lightbox-fundo" aria-label="Fechar"></a><div class="lightbox-conteudo"><a href="#" class="lightbox-fechar" aria-label="Fechar">&times;</a><img src="prints/print-7.jpg" alt=""></div></div>
+</section>
+
+<section class="secao secao-alt" id="oferta">
+  <div class="wrap">
+    <h2 class="secao-titulo">Marque seu exame. É aqui que você começa a entender.</h2>
+    <div class="oferta-painel">
+      <p>Você marca, faz o exame e sai com a sua receita, e com a informação que faltava. <strong>Se não quiser comprar nada, não compra.</strong> Sem constrangimento e sem insistência.</p>
+      <p class="oferta-rotulo">O que está incluído:</p>
+      <ul class="check-lista">
+        <li><span class="marca" aria-hidden="true">✓</span><span>Exame completo, com hora marcada e sem fila</span></li>
+        <li><span class="marca" aria-hidden="true">✓</span><span>Sua receita para levar onde quiser</span></li>
+        <li><span class="marca" aria-hidden="true">✓</span><span>Cada opção de lente explicada em português, não só a recomendada</span></li>
+        <li><span class="marca" aria-hidden="true">✓</span><span>Medidas individuais tiradas com a armação que você escolher</span></li>
+        <li><span class="marca" aria-hidden="true">✓</span><span>Ajuste e limpeza sempre que precisar (<span class="placeholder">[CONFIRMAR se é vitalício]</span>)</span></li>
+        <li><span class="marca" aria-hidden="true">✓</span><span>Acompanhamento até você se adaptar (<span class="placeholder">[CONFIRMAR política]</span>)</span></li>
+      </ul>
+      <p class="oferta-antes-botao">Você fala com a gente no WhatsApp, escolhe o horário e tira as dúvidas que ainda tiver, <strong>inclusive sobre valores.</strong></p>
+
+      <button type="button" class="btn btn-whatsapp btn-bloco" id="quizAbrirBtn">
+        <svg viewBox="0 0 32 32" fill="currentColor" aria-hidden="true"><path d="M16.001 3C9.373 3 4 8.373 4 15c0 2.386.697 4.607 1.897 6.481L4 29l7.694-1.862A11.93 11.93 0 0 0 16 27c6.627 0 12-5.373 12-12S22.628 3 16.001 3zm.001 21.6c-1.86 0-3.598-.51-5.09-1.397l-.365-.217-4.564 1.104 1.128-4.447-.238-.38A9.56 9.56 0 0 1 5.4 15c0-5.294 4.307-9.6 9.6-9.6 5.293 0 9.6 4.306 9.6 9.6 0 5.293-4.307 9.6-9.598 9.6zm5.264-7.19c-.288-.144-1.704-.84-1.968-.936-.264-.096-.456-.144-.648.144-.192.288-.744.936-.912 1.128-.168.192-.336.216-.624.072-.288-.144-1.215-.448-2.314-1.428-.855-.762-1.432-1.704-1.6-1.992-.168-.288-.018-.444.126-.588.129-.128.288-.336.432-.504.144-.168.192-.288.288-.48.096-.192.048-.36-.024-.504-.072-.144-.648-1.56-.888-2.136-.234-.564-.472-.488-.648-.496l-.552-.01c-.192 0-.504.072-.768.36-.264.288-1.008.984-1.008 2.4 0 1.416 1.032 2.784 1.176 2.976.144.192 2.03 3.1 4.92 4.346.688.297 1.224.474 1.642.607.69.22 1.318.189 1.814.115.553-.083 1.704-.697 1.944-1.37.24-.672.24-1.248.168-1.37-.072-.12-.264-.192-.552-.336z"/></svg>
+        Quero marcar meu exame
+      </button>
+
+      <div class="quiz" id="quiz" hidden>
+        <p class="quiz-intro">Responda essas 5 perguntas rápidas antes de falar com a gente — assim já te atendemos preparados no WhatsApp.</p>
+        <p class="quiz-progresso" id="quizProgresso">Pergunta 1 de 5</p>
+        <div id="quizCorpo"></div>
+        <div class="quiz-nav">
+          <button type="button" class="quiz-voltar" id="quizVoltar" hidden>← Voltar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="secao">
+  <div class="wrap">
+    <h2 class="secao-titulo">Perguntas frequentes</h2>
+    <div class="faq">
+      <details open>
+        <summary>Nunca usei óculos. Como sei se preciso?</summary>
+        <p>Se você aperta os olhos para ler placa ou legenda, sente dor de cabeça no fim do dia, afasta o celular para ler ou tem dificuldade para dirigir à noite, vale medir.</p>
+      </details>
+      <details>
+        <summary>Já uso óculos há anos. Preciso refazer o exame?</summary>
+        <p>Sim. O grau muda com o tempo, e boa parte do desconforto que as pessoas atribuem ao cansaço é grau desatualizado.</p>
+      </details>
+      <details>
+        <summary>O que é antirreflexo, e eu preciso?</summary>
+        <p>É um tratamento que tira o brilho que atrapalha à noite e nas fotos. Faz mais diferença do que parece. Na consulta a gente explica se faz sentido para o seu caso.</p>
+      </details>
+      <details>
+        <summary>O que é lente de alto índice?</summary>
+        <p>Lente mais fina para o mesmo grau. Quanto maior o grau, mais isso importa, e é o que permite usar armações maiores.</p>
+      </details>
+      <details>
+        <summary>Preciso levar receita?</summary>
+        <p>Não. O exame é feito na loja, com hora marcada, e a receita fica com você.</p>
+      </details>
+      <details>
+        <summary>Sou obrigada a comprar depois do exame?</summary>
+        <p>Não. O exame é o primeiro passo, não um contrato.</p>
+      </details>
+      <details>
+        <summary>Quanto custa um óculos completo?</summary>
+        <p>Depende do seu grau e da lente que faz sentido pro seu caso. Por isso, qualquer número antes do exame seria chute. O que a gente garante é que você escolhe dentro do valor que definir. Se quiser adiantar a conversa, chame a gente no WhatsApp.</p>
+      </details>
+      <details>
+        <summary>Quanto tempo demora o exame?</summary>
+        <p>Cerca de 20 minutos.</p>
+      </details>
+      <details>
+        <summary>Quanto tempo demora para o óculos ficar pronto?</summary>
+        <p><span class="placeholder">[CONFIRMAR prazo médio]</span></p>
+      </details>
+      <details>
+        <summary>E se eu não me adaptar?</summary>
+        <p><span class="placeholder">[CONFIRMAR política de adaptação]</span></p>
+      </details>
+      <details>
+        <summary>Serve na armação que eu já tenho?</summary>
+        <p>Na maioria dos casos sim. A gente confere a curvatura e a altura antes de fechar o pedido.</p>
+      </details>
+      <details>
+        <summary>Vocês atendem em qual cidade?</summary>
+        <p>Belém, Ananindeua e Castanhal.</p>
+      </details>
+      <details>
+        <summary>A lente de vocês é diferente por quê?</summary>
+        <p>A Ale Vision é calculada com as medidas do seu rosto e da armação que você escolheu, com fabricação digital free form. Na prática: lente mais fina e mais confortável que a de molde pronto.</p>
+      </details>
+    </div>
+    <p class="fecho" style="font-size:17px">Ficou alguma dúvida que não está aqui? A gente responde no WhatsApp quando você marcar o seu exame.</p>
+  </div>
+</section>
+
+<footer class="rodape">
+  <div class="wrap">
+    <div class="marca">Ótica Alê <span style="color:var(--rosa)">Eyewear</span></div>
+    <p class="mono">CNPJ 00.000.000/0001-00</p>
+  </div>
+</footer>
+
+<!-- Motor de rastreamento facial Jeeliz FaceFilter (Apache 2.0) + Three.js na
+     versão compatível com ele — scripts clássicos, nessa ordem exata. -->
+<script src="libs/jeeliz/jeelizFaceFilter.js"></script>
+<script src="libs/jeeliz/three/three.min.js"></script>
+<script src="libs/jeeliz/three/GLTFLoader.js"></script>
+<script src="libs/jeeliz/JeelizThreeHelper.js"></script>
+<script src="libs/jeeliz/JeelizResizer.js"></script>
+<script>
+// ---- CONFIGURAÇÃO: troque aqui o número do WhatsApp (com DDI+DDD, só dígitos) ----
+const WHATSAPP_NUMERO = '55XXXXXXXXXXX'; // [CONFIRMAR número real antes de publicar]
+const WHATSAPP_MENSAGEM = 'Olá! Quero marcar meu exame de vista na Ótica Alê.';
+
+// ---- CONFIGURAÇÃO: URL do Web App do Google Apps Script (planilha de leads do quiz) ----
+// [CONFIRMAR: colar aqui a URL gerada em "Implantar > Nova implantação > App da Web" depois
+// de criar a planilha e colar o script — veja as instruções enviadas separadamente]
+const GOOGLE_SHEETS_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbzvJmFPwR1OtmrInZELLQc-Ad5ZjN7WD_9-3CnNJ6tRh45qbkQ4PJyrG15nOCG6wt_q/exec';
+
+// ---- vídeos da página: toque na tela ativa o som (chegam mudos, por autoplay) ----
+(function(){
+  document.querySelectorAll('.player').forEach(function(player){
+    const iframe = player.querySelector('.player-video');
+    const botaoSom = player.querySelector('.player-clique-som');
+    if (!iframe || !botaoSom) return;
+
+    function comandoPlayer(func){
+      iframe.contentWindow.postMessage(JSON.stringify({ event: 'command', func: func, args: [] }), '*');
+    }
+
+    botaoSom.addEventListener('click', function(){
+      comandoPlayer('unMute');
+      comandoPlayer('playVideo');
+      botaoSom.classList.add('ativado');
+    });
+  });
+})();
+
+// ---- quiz de qualificação (5 perguntas) dentro do bloco de oferta ----
+// [CONFIRMAR com a cliente: texto das perguntas e opções abaixo são um rascunho]
+(function(){
+  const ICONE_WHATSAPP = '<svg viewBox="0 0 32 32" fill="currentColor" aria-hidden="true"><path d="M16.001 3C9.373 3 4 8.373 4 15c0 2.386.697 4.607 1.897 6.481L4 29l7.694-1.862A11.93 11.93 0 0 0 16 27c6.627 0 12-5.373 12-12S22.628 3 16.001 3zm.001 21.6c-1.86 0-3.598-.51-5.09-1.397l-.365-.217-4.564 1.104 1.128-4.447-.238-.38A9.56 9.56 0 0 1 5.4 15c0-5.294 4.307-9.6 9.6-9.6 5.293 0 9.6 4.306 9.6 9.6 0 5.293-4.307 9.6-9.598 9.6zm5.264-7.19c-.288-.144-1.704-.84-1.968-.936-.264-.096-.456-.144-.648.144-.192.288-.744.936-.912 1.128-.168.192-.336.216-.624.072-.288-.144-1.215-.448-2.314-1.428-.855-.762-1.432-1.704-1.6-1.992-.168-.288-.018-.444.126-.588.129-.128.288-.336.432-.504.144-.168.192-.288.288-.48.096-.192.048-.36-.024-.504-.072-.144-.648-1.56-.888-2.136-.234-.564-.472-.488-.648-.496l-.552-.01c-.192 0-.504.072-.768.36-.264.288-1.008.984-1.008 2.4 0 1.416 1.032 2.784 1.176 2.976.144.192 2.03 3.1 4.92 4.346.688.297 1.224.474 1.642.607.69.22 1.318.189 1.814.115.553-.083 1.704-.697 1.944-1.37.24-.672.24-1.248.168-1.37-.072-.12-.264-.192-.552-.336z"/></svg>';
+
+  const QUIZ_PERGUNTAS = [
+    { chave: 'Já usa óculos', pergunta: 'Já usa óculos?', opcoes: ['Não, seria meu primeiro', 'Sim, e quero trocar', 'Sim, e preciso atualizar o grau'] },
+    { chave: 'Maior dificuldade hoje', pergunta: 'Qual a sua maior dificuldade hoje?', opcoes: ['Não enxergo bem de longe', 'Não enxergo bem de perto', 'Dor de cabeça ou cansaço visual', 'Ainda não sei, quero descobrir no exame'] },
+    { chave: 'Sobre o orçamento', pergunta: 'Já sabe quanto quer investir, ou prefere decidir depois do exame?', opcoes: ['Já sei quanto quero investir', 'Prefiro entender as opções antes de decidir'] },
+    { chave: 'Cidade', pergunta: 'Em qual cidade quer ser atendido?', opcoes: ['Belém', 'Ananindeua', 'Castanhal'] },
+    { chave: 'Quando quer marcar', pergunta: 'Quando gostaria de marcar o exame?', opcoes: ['Essa semana', 'Próxima semana', 'Ainda estou decidindo'] }
+  ];
+
+  const abrirBtn = document.getElementById('quizAbrirBtn');
+  const quiz = document.getElementById('quiz');
+  const corpo = document.getElementById('quizCorpo');
+  const progresso = document.getElementById('quizProgresso');
+  const btnVoltar = document.getElementById('quizVoltar');
+
+  if (!abrirBtn) return; // bloco de oferta não está nesta página
+
+  let passo = 0;
+  const respostas = {};
+
+  function enviarLead(origem){
+    const payload = Object.assign({ origem: origem, pagina: 'vsl', quando: new Date().toISOString() }, respostas);
+    if (!GOOGLE_SHEETS_WEBHOOK_URL) return; // sem planilha configurada ainda
+    try {
+      if (navigator.sendBeacon) {
+        navigator.sendBeacon(GOOGLE_SHEETS_WEBHOOK_URL, new Blob([JSON.stringify(payload)], { type: 'application/json' }));
+      } else {
+        fetch(GOOGLE_SHEETS_WEBHOOK_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) });
+      }
+    } catch (erro) {
+      console.log('Não consegui registrar o lead na planilha', erro);
+    }
+  }
+
+  function montarLinkWhatsapp(){
+    let texto = WHATSAPP_MENSAGEM;
+    QUIZ_PERGUNTAS.forEach(function(p){
+      if (respostas[p.chave]) texto += '\n' + p.chave + ': ' + respostas[p.chave];
+    });
+    return 'https://wa.me/' + WHATSAPP_NUMERO + '?text=' + encodeURIComponent(texto);
+  }
+
+  function renderPergunta(){
+    const p = QUIZ_PERGUNTAS[passo];
+    progresso.textContent = 'Pergunta ' + (passo + 1) + ' de ' + QUIZ_PERGUNTAS.length;
+    btnVoltar.hidden = (passo === 0);
+
+    const wrap = document.createElement('div');
+    wrap.className = 'quiz-cartao';
+    const titulo = document.createElement('p');
+    titulo.className = 'quiz-pergunta';
+    titulo.textContent = p.pergunta;
+    wrap.appendChild(titulo);
+
+    const opcoes = document.createElement('div');
+    opcoes.className = 'quiz-opcoes';
+    p.opcoes.forEach(function(texto){
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'quiz-opcao';
+      b.textContent = texto;
+      b.addEventListener('click', function(){
+        respostas[p.chave] = texto;
+        passo++;
+        if (passo < QUIZ_PERGUNTAS.length) renderPergunta(); else renderFinal();
+      });
+      opcoes.appendChild(b);
+    });
+    wrap.appendChild(opcoes);
+
+    corpo.innerHTML = '';
+    corpo.appendChild(wrap);
+  }
+
+  function renderFinal(){
+    progresso.textContent = 'Tudo pronto';
+    btnVoltar.hidden = false;
+
+    const wrap = document.createElement('div');
+
+    const resumo = document.createElement('div');
+    resumo.className = 'quiz-resumo';
+    QUIZ_PERGUNTAS.forEach(function(p){
+      const linha = document.createElement('p');
+      linha.innerHTML = '<strong>' + p.chave + ':</strong> ' + (respostas[p.chave] || 'não respondido');
+      resumo.appendChild(linha);
+    });
+    wrap.appendChild(resumo);
+
+    const link = document.createElement('a');
+    link.className = 'btn btn-whatsapp btn-bloco';
+    link.innerHTML = ICONE_WHATSAPP + 'Enviar e chamar no WhatsApp';
+    link.href = montarLinkWhatsapp();
+    link.addEventListener('click', function(){ enviarLead('quiz-completo'); });
+    wrap.appendChild(link);
+
+    corpo.innerHTML = '';
+    corpo.appendChild(wrap);
+  }
+
+  abrirBtn.addEventListener('click', function(){
+    abrirBtn.hidden = true;
+    quiz.hidden = false;
+    passo = 0;
+    renderPergunta();
+  });
+
+  btnVoltar.addEventListener('click', function(){
+    if (passo === 0) return;
+    passo--;
+    renderPergunta();
+  });
+
+})();
+
+(function(){
+  const msg = document.getElementById('arMsg');
+  const botaoAtivar = document.getElementById('arAtivar');
+  const controles = document.getElementById('arControles');
+  const sliderAltura = document.getElementById('arAltura');
+  const sliderHorizontal = document.getElementById('arHorizontal');
+  const sliderTamanho = document.getElementById('arTamanho');
+  const sliderProfundidade = document.getElementById('arProfundidade');
+  const valAltura = document.getElementById('arValAltura');
+  const valHorizontal = document.getElementById('arValHorizontal');
+  const valTamanho = document.getElementById('arValTamanho');
+  const valProfundidade = document.getElementById('arValProfundidade');
+
+  let modeloAtual = 'grau';
+  let THREECAMERA = null;
+  let ajuste = null;
+  let LARGURA_ALVO = null; // largura de referência, definida pelo primeiro modelo (óculos de grau)
+  const grupos = {}; // id do modelo -> THREE.Object3D (visibilidade alternada)
+
+  // a altura e a profundidade não dá pra descobrir só olhando a geometria
+  // (depende de onde fica a linha dos olhos, não só do tamanho do objeto) —
+  // por isso continuam com um chute inicial compartilhado, ajustável ao vivo.
+  // Tamanho e posição horizontal agora são calculados automaticamente (função
+  // autoencaixar), então começam neutros (100% / 0) pra todo mundo.
+  const presets = {
+    grau: { altura: 44, horizontal: 0, tamanho: 100, profundidade: 35 },
+    sol:  { altura: 44, horizontal: 0, tamanho: 100, profundidade: 35 },
+    m2:   { altura: 44, horizontal: 0, tamanho: 100, profundidade: 35 },
+    m3:   { altura: 44, horizontal: 0, tamanho: 100, profundidade: 35 },
+    m5:   { altura: 44, horizontal: 0, tamanho: 100, profundidade: 35 }
+  };
+
+  document.querySelectorAll('[data-modelo]').forEach(function(b){
+    b.addEventListener('click', function(){
+      document.querySelectorAll('[data-modelo]').forEach(function(o){ o.classList.remove('ativa'); });
+      b.classList.add('ativa');
+      trocarModelo(b.dataset.modelo);
+    });
+  });
+  sliderAltura.addEventListener('input', function(){
+    valAltura.textContent = sliderAltura.value;
+    atualizarAjuste();
+  });
+  sliderHorizontal.addEventListener('input', function(){
+    valHorizontal.textContent = sliderHorizontal.value;
+    atualizarAjuste();
+  });
+  sliderTamanho.addEventListener('input', function(){
+    valTamanho.textContent = sliderTamanho.value + '%';
+    atualizarAjuste();
+  });
+  sliderProfundidade.addEventListener('input', function(){
+    valProfundidade.textContent = sliderProfundidade.value;
+    atualizarAjuste();
+  });
+
+  function lerSliders(){
+    return {
+      altura: Number(sliderAltura.value),
+      horizontal: Number(sliderHorizontal.value),
+      tamanho: Number(sliderTamanho.value),
+      profundidade: Number(sliderProfundidade.value)
+    };
+  }
+
+  function aplicarPreset(p){
+    sliderAltura.value = p.altura;             valAltura.textContent = p.altura;
+    sliderHorizontal.value = p.horizontal;     valHorizontal.textContent = p.horizontal;
+    sliderTamanho.value = p.tamanho;           valTamanho.textContent = p.tamanho + '%';
+    sliderProfundidade.value = p.profundidade; valProfundidade.textContent = p.profundidade;
+  }
+
+  function trocarModelo(novoModelo){
+    presets[modeloAtual] = lerSliders(); // guarda o ajuste feito no modelo anterior
+    modeloAtual = novoModelo;
+    aplicarPreset(presets[modeloAtual]); // restaura o ajuste desse modelo (ou o chute inicial)
+    atualizarAjuste();
+    atualizarVisibilidade();
+  }
+
+  // Tamanho agora é um multiplicador em cima do encaixe automático (100% =
+  // exatamente o que a função autoencaixar calculou). "Profundidade" existe
+  // porque, sem empurrar o óculos pra frente do rosto, ele fica atrás do
+  // oclusor e não aparece — mesmo sem erro nenhum.
+  function atualizarAjuste(){
+    if (!ajuste) return;
+    ajuste.position.y = Number(sliderAltura.value) / 150;
+    ajuste.position.x = Number(sliderHorizontal.value) / 150;
+    ajuste.position.z = Number(sliderProfundidade.value) / 100;
+    const escala = Number(sliderTamanho.value) / 100;
+    ajuste.scale.set(escala, escala, escala);
+  }
+
+  function atualizarVisibilidade(){
+    Object.keys(grupos).forEach(function(id){
+      grupos[id].visible = (modeloAtual === id);
+    });
+  }
+
+  function detect_callback(faceIndex, isDetected){
+    // rosto detectado/perdido — sem ação extra necessária aqui
+  }
+
+  // mede o objeto recém-carregado e escala/centraliza ele automaticamente
+  // pra bater com a largura de referência (definida pelo óculos de grau,
+  // o primeiro modelo que calibramos manualmente). "objeto" precisa já
+  // estar dentro de "grupo" quando isso é chamado.
+  function autoencaixar(grupo, objeto){
+    const caixa = new THREE.Box3().setFromObject(objeto);
+    const tamanho = new THREE.Vector3();
+    const centro = new THREE.Vector3();
+    caixa.getSize(tamanho);
+    caixa.getCenter(centro);
+    const larguraBruta = tamanho.x || 1;
+    if (!LARGURA_ALVO) LARGURA_ALVO = larguraBruta; // o primeiro a chamar vira a referência
+    const escalaAuto = LARGURA_ALVO / larguraBruta;
+    grupo.scale.setScalar(escalaAuto);
+    grupo.position.set(-centro.x * escalaAuto, -centro.y * escalaAuto, 0);
+  }
+
+  // carrega um arquivo com um único óculos (sem sub-objetos pra separar)
+  function carregarModeloSimples(id, url){
+    const grupo = new THREE.Object3D();
+    grupo.visible = false;
+    ajuste.add(grupo);
+    grupos[id] = grupo;
+    new THREE.GLTFLoader().load(url, function(gltf){
+      grupo.add(gltf.scene);
+      autoencaixar(grupo, gltf.scene);
+      atualizarVisibilidade();
+    }, undefined, function(erro){
+      console.log('Falha ao carregar modelo', id, url, erro);
+    });
+  }
+
+  function init_threeScene(spec){
+    const threeStuffs = JeelizThreeHelper.init(spec, detect_callback);
+    threeStuffs.renderer.outputEncoding = THREE.sRGBEncoding;
+
+    threeStuffs.scene.add(new THREE.AmbientLight(0xffffff, 0.9));
+    const luz = new THREE.DirectionalLight(0xffffff, 0.6);
+    luz.position.set(0, 1, 1);
+    threeStuffs.scene.add(luz);
+
+    // grupo de calibragem manual (sliders), preso ao rosto rastreado
+    ajuste = new THREE.Object3D();
+    threeStuffs.faceObject.add(ajuste);
+
+    // oclusor de rosto pronto da própria Jeeliz — esconde a haste do lado
+    // oposto quando a pessoa vira a cabeça
+    const oclusor = JeelizThreeHelper.create_threejsOccluder('modelos/oclusor/face.json');
+    oclusor.rotation.set(0.3, 0, 0);
+    oclusor.position.set(0, 0.03, -0.04);
+    oclusor.scale.multiplyScalar(0.0084);
+    threeStuffs.faceObject.add(oclusor);
+
+    // óculos de grau + de sol vêm do mesmo arquivo (dois objetos dentro dele),
+    // cada um vira seu próprio grupo pra poder ser encaixado independente
+    new THREE.GLTFLoader().load('modelos/oculos-1/scene.gltf', function(gltf){
+      const nodeGrau = gltf.scene.getObjectByName('Glasses_1');
+      const nodeSol = gltf.scene.getObjectByName('Shade_3');
+      if (!nodeGrau || !nodeSol) {
+        msg.textContent = 'O modelo 3D carregou, mas não encontrei os objetos esperados dentro dele.';
+        return;
+      }
+      // no arquivo original os dois ficam lado a lado (foto de produto);
+      // zeramos a posição/rotação de cada um antes de medir e encaixar.
+      nodeGrau.position.set(0, 0, 0); nodeGrau.quaternion.set(0, 0, 0, 1);
+      nodeSol.position.set(0, 0, 0);  nodeSol.quaternion.set(0, 0, 0, 1);
+
+      const grupoGrau = new THREE.Object3D();
+      ajuste.add(grupoGrau);
+      grupoGrau.add(nodeGrau);
+      autoencaixar(grupoGrau, nodeGrau); // define LARGURA_ALVO (referência pros outros modelos)
+      grupos.grau = grupoGrau;
+
+      const grupoSol = new THREE.Object3D();
+      ajuste.add(grupoSol);
+      grupoSol.add(nodeSol);
+      autoencaixar(grupoSol, nodeSol);
+      grupos.sol = grupoSol;
+
+      atualizarVisibilidade();
+
+      // só carrega os demais modelos depois de ter a referência de largura
+      carregarModeloSimples('m2', 'modelos/oculos-2/scene.gltf');
+      carregarModeloSimples('m3', 'modelos/oculos-3/scene.gltf');
+      carregarModeloSimples('m5', 'modelos/oculos-5/scene.gltf');
+    }, undefined, function(erro){
+      const detalhe = (erro && (erro.message || erro.target && erro.target.src)) || JSON.stringify(erro);
+      msg.textContent = 'Não consegui carregar o modelo 3D da armação. Detalhe: ' + detalhe;
+    });
+
+    aplicarPreset(presets[modeloAtual]);
+    atualizarAjuste();
+    atualizarVisibilidade();
+
+    THREECAMERA = JeelizThreeHelper.create_camera();
+  }
+
+  const MENSAGENS_ERRO = {
+    GL_INCOMPATIBLE: 'Seu navegador não tem suporte a WebGL suficiente pra rodar a prova virtual.',
+    WEBCAM_UNAVAILABLE: 'Não consegui acessar a câmera. Verifique se ela não está em uso por outro programa e se a permissão foi concedida.',
+    INVALID_CANVASDIMENSIONS: 'Erro interno ao dimensionar a área da câmera.',
+    CANNOT_RESIZECANVAS: 'Erro interno ao dimensionar a área da câmera.'
+  };
+
+  function init_faceFilter(bestVideoSettings){
+    JEELIZFACEFILTER.init({
+      followZRot: true,
+      canvasId: 'jeeFaceFilterCanvas',
+      NNCPath: 'libs/jeeliz/neuralNets/',
+      maxFacesDetected: 1,
+      videoSettings: {
+        idealWidth: bestVideoSettings.idealWidth,
+        idealHeight: bestVideoSettings.idealHeight,
+        facingMode: 'user'
+      },
+      callbackReady: function(errCode, spec){
+        if (errCode){
+          msg.textContent = MENSAGENS_ERRO[errCode] || ('Não foi possível iniciar (' + errCode + ').');
+          botaoAtivar.disabled = false;
+          botaoAtivar.hidden = false;
+          return;
+        }
+        msg.textContent = '';
+        botaoAtivar.hidden = true;
+        controles.hidden = false;
+        init_threeScene(spec);
+      },
+      callbackTrack: function(detectState){
+        JeelizThreeHelper.render(detectState, THREECAMERA);
+      }
+    });
+  }
+
+  botaoAtivar.addEventListener('click', function(){
+    botaoAtivar.disabled = true;
+    msg.textContent = 'Carregando reconhecimento facial e o modelo 3D...';
+
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      msg.textContent = 'Este navegador não suporta câmera aqui, ou a página não está em HTTPS/localhost.';
+      botaoAtivar.disabled = false;
+      return;
+    }
+
+    JeelizResizer.size_canvas({
+      canvasId: 'jeeFaceFilterCanvas',
+      callback: function(isError, bestVideoSettings){
+        if (isError){
+          msg.textContent = 'Não foi possível preparar a câmera nesse navegador.';
+          botaoAtivar.disabled = false;
+          return;
+        }
+        init_faceFilter(bestVideoSettings);
+      }
+    });
+  });
+})();
+</script>
+
+</body>
+</html>

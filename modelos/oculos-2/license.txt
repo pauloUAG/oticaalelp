@@ -1,0 +1,11 @@
+Model Information:
+* title:	Glasses
+* source:	https://sketchfab.com/3d-models/glasses-bed4643c801b4a0581333489a5e0b3ea
+* author:	Andrea Munegato 3D (https://sketchfab.com/andreamunegato)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Glasses" (https://sketchfab.com/3d-models/glasses-bed4643c801b4a0581333489a5e0b3ea) by Andrea Munegato 3D (https://sketchfab.com/andreamunegato) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

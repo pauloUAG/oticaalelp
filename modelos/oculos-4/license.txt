@@ -1,0 +1,11 @@
+Model Information:
+* title:	Glasses01
+* source:	https://sketchfab.com/3d-models/glasses01-620d02176cf2497290156ae571438758
+* author:	Atraxium (https://sketchfab.com/atraxium)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Glasses01" (https://sketchfab.com/3d-models/glasses01-620d02176cf2497290156ae571438758) by Atraxium (https://sketchfab.com/atraxium) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
