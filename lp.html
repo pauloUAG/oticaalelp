@@ -125,11 +125,29 @@ a{color:inherit}
 .oferta-antes-botao{margin-top:26px!important;font-size:15px!important}
 .oferta-painel .btn{margin-top:22px;width:100%}
 
-/* ---- quiz de qualificação, dentro do painel de oferta ---- */
+/* ---- quiz de qualificação: modal, centralizado no desktop e tela cheia no mobile ---- */
+.quiz-modal{position:fixed;inset:0;z-index:300;display:flex;align-items:center;justify-content:center;padding:24px}
+.quiz-modal[hidden]{display:none}
+.quiz-modal-fundo{position:absolute;inset:0;background:rgba(35,35,35,.6)}
+.quiz-modal-painel{position:relative;background:var(--fundo);width:100%;max-width:460px;max-height:88vh;overflow-y:auto;border-radius:20px;padding:32px 26px 28px;box-shadow:0 50px 80px -30px rgba(0,0,0,.4)}
+.quiz-fechar{position:absolute;top:14px;right:14px;width:36px;height:36px;border-radius:50%;background:var(--fundo-alt);border:0;color:var(--tinta);font-size:22px;line-height:1;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:1}
+.quiz-fechar:hover{background:var(--linha)}
+body.quiz-travado{overflow:hidden}
+@media(max-width:600px){
+  .quiz-modal{padding:0}
+  .quiz-modal-painel{max-width:none;width:100%;height:100vh;height:100dvh;max-height:none;border-radius:0;padding:26px 20px;display:flex;flex-direction:column}
+  .quiz-modal-painel .quiz{display:flex;flex-direction:column;flex:1;min-height:0}
+  .quiz-modal-painel #quizCorpo{flex:1;overflow-y:auto}
+}
+
+/* ---- conteúdo do quiz (perguntas, opções, resumo) ---- */
 .quiz{margin-top:22px;text-align:left}
 .quiz[hidden]{display:none}
+.quiz-selo-sigilo{display:inline-flex;align-items:center;gap:6px;background:#E8F5EC;color:#2F7A46;font-size:12.5px;font-weight:700;padding:6px 14px;border-radius:999px;margin-bottom:14px}
 .quiz-intro{font-size:13.5px;color:var(--cinza);margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid var(--linha)}
-.quiz-progresso{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--rosa);margin-bottom:12px}
+.quiz-progresso-track{height:6px;border-radius:999px;background:var(--linha);overflow:hidden;margin-bottom:8px}
+.quiz-progresso-fill{height:100%;background:linear-gradient(90deg,var(--dourado),var(--rosa));border-radius:999px;transition:width .25s ease}
+.quiz-progresso{display:flex;justify-content:space-between;align-items:center;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--rosa);margin-bottom:12px}
 .quiz-cartao{background:var(--fundo-alt);border:1.5px solid var(--rosa);border-radius:14px;padding:20px 20px 22px;box-shadow:0 20px 30px -20px rgba(140,90,82,.3)}
 .quiz-pergunta{font-family:var(--display);font-size:17px;font-weight:600;line-height:1.35;margin-bottom:16px}
 .quiz-opcoes{display:flex;flex-direction:column;gap:10px}
@@ -141,6 +159,15 @@ a{color:inherit}
 .quiz-resumo{background:var(--fundo-alt);border-radius:12px;padding:16px 18px;margin-bottom:18px}
 .quiz-resumo p{font-size:13.5px;color:var(--cinza);margin-bottom:4px}
 .quiz-resumo p strong{color:var(--tinta)}
+
+/* ---- passo final: campo de telefone pra deixar contato ---- */
+.quiz-telefone-rotulo{font-family:var(--display);font-size:16px;font-weight:600;margin-bottom:10px}
+.quiz-telefone-grupo{display:flex;gap:8px}
+.quiz-telefone-ddi{flex:0 0 auto;display:flex;align-items:center;justify-content:center;padding:0 14px;border:1.5px solid var(--linha);border-radius:10px;background:var(--fundo-alt);font-weight:700;color:var(--tinta)}
+.quiz-telefone-input{flex:1;min-width:0;border:1.5px solid var(--linha);border-radius:10px;padding:0 14px;font-family:var(--corpo);font-size:15px;color:var(--tinta)}
+.quiz-telefone-input:focus{outline:none;border-color:var(--rosa)}
+.quiz-telefone-erro{color:#B3261E;font-size:12.5px;margin-top:6px}
+.quiz-telefone-nota{display:flex;gap:10px;align-items:flex-start;background:var(--fundo-alt);border-radius:12px;padding:14px 16px;margin-top:18px;font-size:12.5px;color:var(--cinza)}
 
 /* ---- bloco 11: FAQ (accordion nativo) ---- */
 .faq{max-width:680px;margin:44px auto 0}
@@ -439,17 +466,29 @@ a{color:inherit}
         Quero marcar meu exame
       </button>
 
-      <div class="quiz" id="quiz" hidden>
-        <p class="quiz-intro">Responda essas 5 perguntas rápidas antes de falar com a gente — assim já te atendemos preparados no WhatsApp.</p>
-        <p class="quiz-progresso" id="quizProgresso">Pergunta 1 de 5</p>
-        <div id="quizCorpo"></div>
-        <div class="quiz-nav">
-          <button type="button" class="quiz-voltar" id="quizVoltar" hidden>← Voltar</button>
-        </div>
-      </div>
     </div>
   </div>
 </section>
+
+<div class="quiz-modal" id="quizModal" hidden>
+  <div class="quiz-modal-fundo" id="quizModalFundo"></div>
+  <div class="quiz-modal-painel" role="dialog" aria-modal="true" aria-label="Quiz de qualificação">
+    <button type="button" class="quiz-fechar" id="quizFechar" aria-label="Fechar">&times;</button>
+    <div class="quiz" id="quiz">
+      <p class="quiz-selo-sigilo">🔒 100% sigiloso</p>
+      <p class="quiz-intro">Responda essas 5 perguntas rápidas antes de falar com a gente — assim já te atendemos preparados no WhatsApp.</p>
+      <div class="quiz-progresso-track"><div class="quiz-progresso-fill" id="quizProgressoFill"></div></div>
+      <p class="quiz-progresso">
+        <span id="quizProgressoTexto">Pergunta 1 de 5</span>
+        <span id="quizProgressoPct">17%</span>
+      </p>
+      <div id="quizCorpo"></div>
+      <div class="quiz-nav">
+        <button type="button" class="quiz-voltar" id="quizVoltar" hidden>← Voltar</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <section class="secao">
   <div class="wrap">
@@ -560,31 +599,104 @@ const GOOGLE_SHEETS_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbzvJm
 (function(){
   const ICONE_WHATSAPP = '<svg viewBox="0 0 32 32" fill="currentColor" aria-hidden="true"><path d="M16.001 3C9.373 3 4 8.373 4 15c0 2.386.697 4.607 1.897 6.481L4 29l7.694-1.862A11.93 11.93 0 0 0 16 27c6.627 0 12-5.373 12-12S22.628 3 16.001 3zm.001 21.6c-1.86 0-3.598-.51-5.09-1.397l-.365-.217-4.564 1.104 1.128-4.447-.238-.38A9.56 9.56 0 0 1 5.4 15c0-5.294 4.307-9.6 9.6-9.6 5.293 0 9.6 4.306 9.6 9.6 0 5.293-4.307 9.6-9.598 9.6zm5.264-7.19c-.288-.144-1.704-.84-1.968-.936-.264-.096-.456-.144-.648.144-.192.288-.744.936-.912 1.128-.168.192-.336.216-.624.072-.288-.144-1.215-.448-2.314-1.428-.855-.762-1.432-1.704-1.6-1.992-.168-.288-.018-.444.126-.588.129-.128.288-.336.432-.504.144-.168.192-.288.288-.48.096-.192.048-.36-.024-.504-.072-.144-.648-1.56-.888-2.136-.234-.564-.472-.488-.648-.496l-.552-.01c-.192 0-.504.072-.768.36-.264.288-1.008.984-1.008 2.4 0 1.416 1.032 2.784 1.176 2.976.144.192 2.03 3.1 4.92 4.346.688.297 1.224.474 1.642.607.69.22 1.318.189 1.814.115.553-.083 1.704-.697 1.944-1.37.24-.672.24-1.248.168-1.37-.072-.12-.264-.192-.552-.336z"/></svg>';
 
+  // pontos por resposta = força do sinal de intenção de compra (usado só internamente,
+  // pra classificar a temperatura do lead — não aparece pro cliente nem na mensagem do WhatsApp)
   const QUIZ_PERGUNTAS = [
-    { chave: 'Já usa óculos', pergunta: 'Já usa óculos?', opcoes: ['Não, seria meu primeiro', 'Sim, e quero trocar', 'Sim, e preciso atualizar o grau'] },
-    { chave: 'Maior dificuldade hoje', pergunta: 'Qual a sua maior dificuldade hoje?', opcoes: ['Não enxergo bem de longe', 'Não enxergo bem de perto', 'Dor de cabeça ou cansaço visual', 'Ainda não sei, quero descobrir no exame'] },
-    { chave: 'Sobre o orçamento', pergunta: 'Já sabe quanto quer investir, ou prefere decidir depois do exame?', opcoes: ['Já sei quanto quero investir', 'Prefiro entender as opções antes de decidir'] },
-    { chave: 'Cidade', pergunta: 'Em qual cidade quer ser atendido?', opcoes: ['Belém', 'Ananindeua', 'Castanhal'] },
-    { chave: 'Quando quer marcar', pergunta: 'Quando gostaria de marcar o exame?', opcoes: ['Essa semana', 'Próxima semana', 'Ainda estou decidindo'] }
+    { chave: 'Decisão de compra', pergunta: 'Você já decidiu que vai comprar um óculos novo, ou ainda está só pesquisando?', opcoes: [
+        { emoji: '🎯', texto: 'Já decidi, só preciso agendar', pontos: 3 },
+        { emoji: '🤔', texto: 'Estou decidindo, mas bem próximo', pontos: 2 },
+        { emoji: '🔍', texto: 'Ainda estou só pesquisando', pontos: 1 }
+      ] },
+    { chave: 'Maior dificuldade hoje', pergunta: 'Qual a sua maior dificuldade hoje?', opcoes: [
+        { emoji: '🌆', texto: 'Não enxergo bem de longe', pontos: 1 },
+        { emoji: '📖', texto: 'Não enxergo bem de perto', pontos: 1 },
+        { emoji: '🤕', texto: 'Dor de cabeça ou cansaço visual', pontos: 1 },
+        { emoji: '❓', texto: 'Ainda não sei, quero descobrir no exame', pontos: 0 }
+      ] },
+    { chave: 'Sobre o orçamento', pergunta: 'Já sabe quanto quer investir, ou prefere decidir depois do exame?', opcoes: [
+        { emoji: '💰', texto: 'Já sei quanto quero investir', pontos: 2 },
+        { emoji: '🧐', texto: 'Prefiro entender as opções antes de decidir', pontos: 1 }
+      ] },
+    { chave: 'Cidade', pergunta: 'Em qual cidade quer ser atendido?', opcoes: [
+        { emoji: '📍', texto: 'Belém', pontos: 0 },
+        { emoji: '📍', texto: 'Ananindeua', pontos: 0 },
+        { emoji: '📍', texto: 'Castanhal', pontos: 0 }
+      ] },
+    { chave: 'Quando quer marcar', pergunta: 'Quando gostaria de marcar o exame?', opcoes: [
+        { emoji: '🔥', texto: 'Essa semana', pontos: 3 },
+        { emoji: '🗓️', texto: 'Próxima semana', pontos: 2 },
+        { emoji: '🤷', texto: 'Ainda estou decidindo', pontos: 1 }
+      ] }
   ];
+  const TOTAL_PASSOS = QUIZ_PERGUNTAS.length + 1; // +1 = passo final de contato
 
   const abrirBtn = document.getElementById('quizAbrirBtn');
-  const quiz = document.getElementById('quiz');
+  const modal = document.getElementById('quizModal');
+  const modalFundo = document.getElementById('quizModalFundo');
+  const btnFechar = document.getElementById('quizFechar');
   const corpo = document.getElementById('quizCorpo');
-  const progresso = document.getElementById('quizProgresso');
+  const progressoTexto = document.getElementById('quizProgressoTexto');
+  const progressoPct = document.getElementById('quizProgressoPct');
+  const progressoFill = document.getElementById('quizProgressoFill');
   const btnVoltar = document.getElementById('quizVoltar');
 
-  if (!abrirBtn) return; // bloco de oferta não está nesta página
+  if (!abrirBtn || !modal) return; // bloco de oferta não está nesta página
+
+  function abrirModal(){
+    modal.hidden = false;
+    document.body.classList.add('quiz-travado');
+    passo = 0;
+    renderPergunta();
+  }
+
+  function fecharModal(){
+    modal.hidden = true;
+    document.body.classList.remove('quiz-travado');
+  }
 
   let passo = 0;
+  let telefoneDigitado = '';
   const respostas = {};
+  const pontosPorPergunta = {}; // guardado por chave, não somado direto, pra sobreviver a cliques em "Voltar"
+
+  function calcularPontuacao(){
+    return Object.keys(pontosPorPergunta).reduce(function(soma, chave){ return soma + pontosPorPergunta[chave]; }, 0);
+  }
+
+  function calcularTemperatura(pontos){
+    if (pontos >= 7) return 'Quente';
+    if (pontos >= 5) return 'Morno';
+    return 'Frio';
+  }
+
+  function atualizarProgresso(passoAtual, rotulo){
+    const pct = Math.round((passoAtual / TOTAL_PASSOS) * 100);
+    progressoFill.style.width = pct + '%';
+    progressoTexto.textContent = rotulo;
+    progressoPct.textContent = pct + '%';
+  }
+
+  function formatarTelefone(valor){
+    const digitos = valor.replace(/\D/g, '').slice(0, 11);
+    if (digitos.length <= 2) return digitos;
+    if (digitos.length <= 7) return '(' + digitos.slice(0, 2) + ') ' + digitos.slice(2);
+    return '(' + digitos.slice(0, 2) + ') ' + digitos.slice(2, 7) + '-' + digitos.slice(7);
+  }
 
   function enviarLead(origem){
-    const payload = Object.assign({ origem: origem, pagina: 'vsl', quando: new Date().toISOString() }, respostas);
+    const pontuacao = calcularPontuacao();
+    const payload = Object.assign({
+      origem: origem,
+      pagina: 'lp',
+      quando: new Date().toISOString(),
+      pontuacao: pontuacao,
+      temperatura: calcularTemperatura(pontuacao),
+      telefone: telefoneDigitado ? ('55 ' + telefoneDigitado) : '' // sem "+" na frente: Sheets tenta ler como fórmula e quebra
+    }, respostas);
     if (!GOOGLE_SHEETS_WEBHOOK_URL) return; // sem planilha configurada ainda
     try {
       if (navigator.sendBeacon) {
-        navigator.sendBeacon(GOOGLE_SHEETS_WEBHOOK_URL, new Blob([JSON.stringify(payload)], { type: 'application/json' }));
+        navigator.sendBeacon(GOOGLE_SHEETS_WEBHOOK_URL, new Blob([JSON.stringify(payload)], { type: 'text/plain' }));
       } else {
         fetch(GOOGLE_SHEETS_WEBHOOK_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) });
       }
@@ -603,7 +715,7 @@ const GOOGLE_SHEETS_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbzvJm
 
   function renderPergunta(){
     const p = QUIZ_PERGUNTAS[passo];
-    progresso.textContent = 'Pergunta ' + (passo + 1) + ' de ' + QUIZ_PERGUNTAS.length;
+    atualizarProgresso(passo + 1, 'Pergunta ' + (passo + 1) + ' de ' + QUIZ_PERGUNTAS.length);
     btnVoltar.hidden = (passo === 0);
 
     const wrap = document.createElement('div');
@@ -615,13 +727,14 @@ const GOOGLE_SHEETS_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbzvJm
 
     const opcoes = document.createElement('div');
     opcoes.className = 'quiz-opcoes';
-    p.opcoes.forEach(function(texto){
+    p.opcoes.forEach(function(opcao){
       const b = document.createElement('button');
       b.type = 'button';
       b.className = 'quiz-opcao';
-      b.textContent = texto;
+      b.textContent = (opcao.emoji ? opcao.emoji + '  ' : '') + opcao.texto;
       b.addEventListener('click', function(){
-        respostas[p.chave] = texto;
+        respostas[p.chave] = opcao.texto;
+        pontosPorPergunta[p.chave] = opcao.pontos;
         passo++;
         if (passo < QUIZ_PERGUNTAS.length) renderPergunta(); else renderFinal();
       });
@@ -634,7 +747,7 @@ const GOOGLE_SHEETS_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbzvJm
   }
 
   function renderFinal(){
-    progresso.textContent = 'Tudo pronto';
+    atualizarProgresso(TOTAL_PASSOS, 'Último passo');
     btnVoltar.hidden = false;
 
     const wrap = document.createElement('div');
@@ -648,22 +761,69 @@ const GOOGLE_SHEETS_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbzvJm
     });
     wrap.appendChild(resumo);
 
+    const rotuloTelefone = document.createElement('p');
+    rotuloTelefone.className = 'quiz-telefone-rotulo';
+    rotuloTelefone.textContent = 'Qual é o seu WhatsApp?';
+    wrap.appendChild(rotuloTelefone);
+
+    const grupoTelefone = document.createElement('div');
+    grupoTelefone.className = 'quiz-telefone-grupo';
+    const ddi = document.createElement('span');
+    ddi.className = 'quiz-telefone-ddi';
+    ddi.textContent = '+55';
+    const inputTelefone = document.createElement('input');
+    inputTelefone.type = 'tel';
+    inputTelefone.className = 'quiz-telefone-input';
+    inputTelefone.placeholder = '(91) 99999-9999';
+    inputTelefone.value = telefoneDigitado;
+    inputTelefone.inputMode = 'numeric';
+    grupoTelefone.appendChild(ddi);
+    grupoTelefone.appendChild(inputTelefone);
+    wrap.appendChild(grupoTelefone);
+
+    const erroTelefone = document.createElement('p');
+    erroTelefone.className = 'quiz-telefone-erro';
+    erroTelefone.hidden = true;
+    erroTelefone.textContent = 'Confirme seu número com DDD pra gente conseguir te chamar.';
+    wrap.appendChild(erroTelefone);
+
+    inputTelefone.addEventListener('input', function(){
+      telefoneDigitado = formatarTelefone(inputTelefone.value);
+      inputTelefone.value = telefoneDigitado;
+      erroTelefone.hidden = true;
+    });
+
     const link = document.createElement('a');
     link.className = 'btn btn-whatsapp btn-bloco';
-    link.innerHTML = ICONE_WHATSAPP + 'Enviar e chamar no WhatsApp';
+    link.innerHTML = ICONE_WHATSAPP + 'Falar no WhatsApp agora';
     link.href = montarLinkWhatsapp();
-    link.addEventListener('click', function(){ enviarLead('quiz-completo'); });
+    link.addEventListener('click', function(e){
+      const somenteDigitos = telefoneDigitado.replace(/\D/g, '');
+      if (somenteDigitos.length < 10) {
+        e.preventDefault();
+        erroTelefone.hidden = false;
+        inputTelefone.focus();
+        return;
+      }
+      enviarLead('quiz-completo');
+      fecharModal();
+    });
     wrap.appendChild(link);
+
+    const nota = document.createElement('p');
+    nota.className = 'quiz-telefone-nota';
+    nota.innerHTML = '🔒 Seu número é usado só para esse atendimento. A gente te chama no WhatsApp — 100% sigiloso.';
+    wrap.appendChild(nota);
 
     corpo.innerHTML = '';
     corpo.appendChild(wrap);
   }
 
-  abrirBtn.addEventListener('click', function(){
-    abrirBtn.hidden = true;
-    quiz.hidden = false;
-    passo = 0;
-    renderPergunta();
+  abrirBtn.addEventListener('click', abrirModal);
+  btnFechar.addEventListener('click', fecharModal);
+  modalFundo.addEventListener('click', fecharModal);
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape' && !modal.hidden) fecharModal();
   });
 
   btnVoltar.addEventListener('click', function(){
