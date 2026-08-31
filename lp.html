@@ -706,11 +706,8 @@ const GOOGLE_SHEETS_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbzvJm
   }
 
   function montarLinkWhatsapp(){
-    let texto = WHATSAPP_MENSAGEM;
-    QUIZ_PERGUNTAS.forEach(function(p){
-      if (respostas[p.chave]) texto += '\n' + p.chave + ': ' + respostas[p.chave];
-    });
-    return 'https://wa.me/' + WHATSAPP_NUMERO + '?text=' + encodeURIComponent(texto);
+    // mensagem só com o texto padrão — as respostas do quiz vão pra planilha, não pro WhatsApp
+    return 'https://wa.me/' + WHATSAPP_NUMERO + '?text=' + encodeURIComponent(WHATSAPP_MENSAGEM);
   }
 
   function renderPergunta(){
