@@ -47,11 +47,8 @@ a{color:inherit}
 .hero .wrap{position:relative;z-index:1}
 .hero-grade{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(260px,.95fr);gap:56px;align-items:center}
 
-.hero-logo{display:flex;align-items:center;gap:12px;margin-bottom:32px}
-.hero-logo .icone{flex:0 0 44px;width:44px;height:44px;border-radius:12px;background:var(--tinta);display:flex;align-items:center;justify-content:center}
-.hero-logo .icone svg{width:24px;height:24px;stroke:#fff}
-.hero-logo .nome{font-family:var(--display);font-size:20px;font-weight:600;letter-spacing:-.01em}
-.hero-logo .nome span{color:var(--rosa)}
+.hero-logo{display:flex;align-items:center;margin-bottom:32px}
+.hero-logo img{width:56px;height:56px;border-radius:50%}
 
 .hero-texto .mono{color:var(--rosa);margin-bottom:16px}
 .hero-texto h1{font-family:var(--display);font-weight:600;line-height:1.14;letter-spacing:-.02em;font-size:clamp(30px,3.6vw,44px);max-width:520px;margin:0 0 18px}
@@ -78,6 +75,8 @@ a{color:inherit}
   .hero-texto h1{font-size:22px;line-height:1.22;margin-bottom:12px}
   .hero-texto p{font-size:15px;margin-bottom:20px}
   .player{max-width:min(340px,calc(100vw - 64px))}
+  .ar-linha{gap:14px 12px}
+  .ar-opcao{padding:11px 18px}
 }
 
 .secao-titulo em{font-style:normal;color:var(--rosa)}
@@ -196,8 +195,8 @@ body.quiz-travado{overflow:hidden}
 .ar-msg:empty{display:none}
 .ar-controles{display:flex;flex-direction:column;gap:16px}
 .ar-controles[hidden]{display:none}
-.ar-linha{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
-.ar-opcao{border:1.5px solid var(--linha);background:var(--fundo);border-radius:999px;padding:8px 16px;font-family:var(--corpo);font-size:13.5px;font-weight:600;color:var(--tinta);cursor:pointer;transition:border-color .15s ease,background .15s ease}
+.ar-linha{display:flex;gap:10px 12px;justify-content:center;flex-wrap:wrap}
+.ar-opcao{border:1.5px solid var(--linha);background:var(--fundo);border-radius:999px;padding:9px 17px;font-family:var(--corpo);font-size:13.5px;font-weight:600;color:var(--tinta);cursor:pointer;transition:border-color .15s ease,background .15s ease}
 .ar-opcao:hover{border-color:var(--rosa)}
 .ar-opcao.ativa{background:var(--tinta);border-color:var(--tinta);color:#fff}
 .ar-calibragem{display:grid;gap:10px;text-align:left;background:var(--fundo-alt);border-radius:12px;padding:14px 16px}
@@ -249,10 +248,7 @@ body.quiz-travado{overflow:hidden}
     <div class="hero-grade">
       <div class="hero-texto">
         <div class="hero-logo">
-          <span class="icone" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round"><circle cx="6.5" cy="14" r="3.6"/><circle cx="17.5" cy="14" r="3.6"/><path d="M10.1 14h3.8M3 12l1-4M21 12l-1-4M4 8h2.5M17.5 8H20"/></svg>
-          </span>
-          <p class="nome">Ótica Alê <span>Eyewear</span></p>
+          <img src="img/logo-oticas-ale.png" alt="Óticas Alê Eyewear" width="56" height="56">
         </div>
         <p class="mono">Para quem vai comprar óculos e dessa vez quer entender o que está escolhendo</p>
         <h1>Imagine escolher seu óculos sabendo exatamente o que você está comprando</h1>
