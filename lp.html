@@ -221,6 +221,17 @@ body.quiz-travado{overflow:hidden}
 
 @media(max-width:860px){.galeria-prints{column-count:2}}
 
+/* ---- lojas: abas + mapa incorporado do Google Maps ---- */
+.lojas-abas{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:36px}
+.loja-aba{border:1.5px solid var(--linha);background:var(--fundo);border-radius:999px;padding:10px 22px;font-family:var(--corpo);font-size:14px;font-weight:600;color:var(--tinta);cursor:pointer;transition:border-color .15s ease,background .15s ease}
+.loja-aba:hover{border-color:var(--rosa)}
+.loja-aba.ativa{background:var(--tinta);border-color:var(--tinta);color:#fff}
+.loja-mapa{max-width:640px;margin:24px auto 0;border-radius:18px;overflow:hidden;border:1px solid var(--linha);box-shadow:0 30px 50px -28px rgba(35,35,35,.25);aspect-ratio:16/10;background:var(--fundo-alt)}
+.loja-mapa iframe{width:100%;height:100%;border:0;display:block}
+.loja-endereco{max-width:520px;margin:18px auto 0;text-align:center;font-size:15px;color:var(--cinza)}
+.loja-rota{display:block;text-align:center;margin-top:10px;color:var(--rosa);font-weight:700;font-size:14.5px;text-decoration:none}
+.loja-rota:hover{text-decoration:underline}
+
 .rodape{padding:40px 0 60px;text-align:center;color:var(--cinza);font-size:14px}
 .rodape .marca{font-family:var(--display);font-size:19px;font-weight:600;letter-spacing:-.01em;color:var(--tinta)}
 .rodape .mono{color:#9FA8B6;margin-top:14px}
@@ -547,6 +558,26 @@ body.quiz-travado{overflow:hidden}
   </div>
 </section>
 
+<section class="secao secao-alt" id="lojas">
+  <div class="wrap">
+    <h2 class="secao-titulo">Nossas lojas</h2>
+    <p class="secao-intro">Escolha a cidade mais perto de você.</p>
+
+    <div class="lojas-abas" id="lojasAbas">
+      <button type="button" class="loja-aba ativa" data-loja="belem">Belém</button>
+      <button type="button" class="loja-aba" data-loja="ananindeua">Ananindeua</button>
+      <button type="button" class="loja-aba" data-loja="castanhal">Castanhal</button>
+    </div>
+
+    <div class="loja-mapa">
+      <iframe id="lojaMapaFrame" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+    </div>
+
+    <p class="loja-endereco" id="lojaEndereco">Belém</p>
+    <a class="loja-rota" id="lojaRota" href="#" target="_blank" rel="noopener">Ver rota no Google Maps →</a>
+  </div>
+</section>
+
 <footer class="rodape">
   <div class="wrap">
     <div class="marca">Ótica Alê <span style="color:var(--rosa)">Eyewear</span></div>
@@ -588,6 +619,36 @@ const GOOGLE_SHEETS_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbzvJm
       botaoSom.classList.add('ativado');
     });
   });
+})();
+
+// ---- lojas: troca o mapa incorporado do Google Maps ao clicar na aba da cidade ----
+(function(){
+  const LOJAS = {
+    belem: { nome: 'Belém', consulta: 'Óticas Alê, Belém - PA' },
+    ananindeua: { nome: 'Ananindeua', consulta: 'Óticas Alê, Ananindeua - PA' },
+    castanhal: { nome: 'Castanhal', consulta: 'Óticas Alê, Castanhal - PA' }
+  };
+
+  const abas = document.querySelectorAll('.loja-aba');
+  const iframe = document.getElementById('lojaMapaFrame');
+  const endereco = document.getElementById('lojaEndereco');
+  const rota = document.getElementById('lojaRota');
+
+  if (!iframe) return; // seção de lojas não está nesta página
+
+  function mostrarLoja(chave){
+    const loja = LOJAS[chave];
+    iframe.src = 'https://www.google.com/maps?q=' + encodeURIComponent(loja.consulta) + '&output=embed';
+    endereco.textContent = loja.nome;
+    rota.href = 'https://www.google.com/maps/dir/?api=1&destination=' + encodeURIComponent(loja.consulta);
+    abas.forEach(function(b){ b.classList.toggle('ativa', b.dataset.loja === chave); });
+  }
+
+  abas.forEach(function(b){
+    b.addEventListener('click', function(){ mostrarLoja(b.dataset.loja); });
+  });
+
+  mostrarLoja('belem');
 })();
 
 // ---- quiz de qualificação (5 perguntas) dentro do bloco de oferta ----
