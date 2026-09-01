@@ -36,6 +36,12 @@ module.exports = async (req, res) => {
     }]
   };
 
+  // modo teste: só entra se a variável existir no Vercel (Eventos de teste do Meta).
+  // Apagar essa variável no painel desliga o modo teste sem precisar mexer no código.
+  if (process.env.META_TEST_EVENT_CODE) {
+    payload.test_event_code = process.env.META_TEST_EVENT_CODE;
+  }
+
   try {
     const resposta = await fetch(
       'https://graph.facebook.com/v19.0/' + PIXEL_ID + '/events?access_token=' + token,
