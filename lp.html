@@ -791,16 +791,23 @@ const GOOGLE_SHEETS_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbzvJm
     if (typeof fbq === 'function') {
       fbq('track', 'Lead', {}, { eventID: eventId });
     }
-    fetch('/api/capi', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        eventId: eventId,
-        url: window.location.href,
-        fbp: lerCookie('_fbp'),
-        fbc: lerCookie('_fbc')
-      })
-    }).catch(function(){}); // silencioso: se a função /api/capi não existir (ex: teste local), não quebra o fluxo
+    const dadosEvento = JSON.stringify({
+      eventId: eventId,
+      url: window.location.href,
+      fbp: lerCookie('_fbp'),
+      fbc: lerCookie('_fbc')
+    });
+    // sendBeacon (não fetch): o clique logo em seguida navega pro WhatsApp, e fetch comum
+    // é cancelado nessa hora — sendBeacon é feito pra sobreviver à saída da página
+    try {
+      if (navigator.sendBeacon) {
+        navigator.sendBeacon('/api/capi', new Blob([dadosEvento], { type: 'application/json' }));
+      } else {
+        fetch('/api/capi', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: dadosEvento, keepalive: true });
+      }
+    } catch (erro) {
+      console.log('Não consegui mandar o evento de conversão', erro);
+    }
   }
 
   function montarLinkWhatsapp(){
