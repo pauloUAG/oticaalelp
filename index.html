@@ -230,8 +230,6 @@ body.quiz-travado{overflow:hidden}
   border:1px solid var(--linha);box-shadow:0 26px 36px -24px rgba(35,35,35,.18);transition:transform .18s ease}
 .print-item:hover{transform:translateY(-3px)}
 .print-item img{display:block;width:100%}
-.print-item video{display:block;width:100%}
-.print-video-som{position:absolute;bottom:10px;right:10px;width:32px;height:32px;border-radius:50%;background:rgba(35,35,35,.65);color:#fff;border:0;font-size:14px;display:flex;align-items:center;justify-content:center;cursor:pointer}
 
 /* lightbox sem JS, via :target */
 .lightbox-alvo{display:none;position:fixed;inset:0;z-index:200;align-items:center;justify-content:center;padding:30px}
@@ -459,18 +457,6 @@ body.quiz-travado{overflow:hidden}
       <a href="#print-2" class="print-item"><img src="prints/print2.jpeg" alt="Depoimento de cliente Izana Sampaio: eu amei, sempre compro com vocês" loading="lazy"></a>
       <a href="#print-3" class="print-item"><img src="prints/print3.jpeg" alt="Depoimento de cliente Thainá Blasques: recebi sim, obrigada pelo atendimento, parabéns pelo capricho" loading="lazy"></a>
       <a href="#print-4" class="print-item"><img src="prints/print4.jpg" alt="Depoimento de cliente com óculos de sol: já peguei meu óculos, eu amei demais, como sempre" loading="lazy"></a>
-      <div class="print-item print-item-video">
-        <video src="prints/print5.mp4" muted autoplay loop playsinline preload="metadata"></video>
-        <button type="button" class="print-video-som" aria-label="Ativar som do vídeo">🔇</button>
-      </div>
-      <div class="print-item print-item-video">
-        <video src="prints/print6.mp4" muted autoplay loop playsinline preload="metadata"></video>
-        <button type="button" class="print-video-som" aria-label="Ativar som do vídeo">🔇</button>
-      </div>
-      <div class="print-item print-item-video">
-        <video src="prints/print7.mp4" muted autoplay loop playsinline preload="metadata"></video>
-        <button type="button" class="print-video-som" aria-label="Ativar som do vídeo">🔇</button>
-      </div>
     </div>
   </div>
 
@@ -639,19 +625,6 @@ const GOOGLE_SHEETS_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbzvJm
       comandoPlayer('unMute');
       comandoPlayer('playVideo');
       botaoSom.classList.add('ativado');
-    });
-  });
-})();
-
-// ---- prints de vídeo (depoimentos): toque no botão liga/desliga o som ----
-(function(){
-  document.querySelectorAll('.print-item-video').forEach(function(item){
-    const video = item.querySelector('video');
-    const botao = item.querySelector('.print-video-som');
-    if (!video || !botao) return;
-    botao.addEventListener('click', function(){
-      video.muted = !video.muted;
-      botao.textContent = video.muted ? '🔇' : '🔊';
     });
   });
 })();
