@@ -216,8 +216,9 @@ body.quiz-travado{overflow:hidden}
 .ar-opcao{border:1.5px solid var(--linha);background:var(--fundo);border-radius:999px;padding:9px 17px;font-family:var(--corpo);font-size:13.5px;font-weight:600;color:var(--tinta);cursor:pointer;transition:border-color .15s ease,background .15s ease}
 .ar-opcao:hover{border-color:var(--rosa)}
 .ar-opcao.ativa{background:var(--tinta);border-color:var(--tinta);color:#fff}
-.ar-dica{font-size:12.5px;color:var(--cinza);line-height:1.45}
-.ar-abrir-ajuste{background:transparent;border:0;padding:0;font-family:var(--corpo);font-size:12.5px;font-weight:700;color:var(--rosa);text-decoration:underline;cursor:pointer}
+.ar-dica{line-height:1.35}
+.ar-abrir-ajuste{background:transparent;border:0;padding:0;font-family:var(--corpo);font-size:15.5px;font-weight:700;color:var(--rosa);text-decoration:underline;cursor:pointer}
+.ar-dica-sub{margin-top:4px;font-size:12.5px;color:var(--cinza);line-height:1.45}
 .ar-calibragem{display:grid;gap:10px;text-align:left;background:var(--fundo-alt);border-radius:12px;padding:14px 16px}
 .ar-calibragem[hidden]{display:none}
 .ar-slider{display:flex;flex-direction:column;gap:4px}
@@ -370,7 +371,8 @@ body.quiz-travado{overflow:hidden}
           <button class="ar-opcao ativa" data-modelo="m2">Estilo 1</button>
           <button class="ar-opcao" data-modelo="m5">Estilo 2</button>
         </div>
-        <p class="ar-dica">O óculos se ajusta sozinho ao seu rosto. Se não encaixar direito, mexa a cabeça devagar até centralizar, ou <button type="button" class="ar-abrir-ajuste" id="arAbrirAjuste">ajuste manualmente</button>.</p>
+        <p class="ar-dica"><button type="button" class="ar-abrir-ajuste" id="arAbrirAjuste">Ajuste manualmente o óculos aqui</button></p>
+        <p class="ar-dica-sub">Use os controles pra deixar a armação encaixada no seu rosto.</p>
 
         <div class="ar-calibragem" id="arCalibragem" hidden>
           <div class="ar-slider">
@@ -974,7 +976,7 @@ const GOOGLE_SHEETS_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbzvJm
   // sliders começam escondidos: só aparecem se a pessoa pedir pra ajustar
   abrirAjuste.addEventListener('click', function(){
     calibragem.hidden = !calibragem.hidden;
-    abrirAjuste.textContent = calibragem.hidden ? 'ajuste manualmente' : 'esconder ajuste';
+    abrirAjuste.textContent = calibragem.hidden ? 'Ajuste manualmente o óculos aqui' : 'Esconder os controles';
   });
 
   sliderAltura.addEventListener('input', function(){
