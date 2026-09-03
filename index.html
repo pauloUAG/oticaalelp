@@ -216,7 +216,10 @@ body.quiz-travado{overflow:hidden}
 .ar-opcao{border:1.5px solid var(--linha);background:var(--fundo);border-radius:999px;padding:9px 17px;font-family:var(--corpo);font-size:13.5px;font-weight:600;color:var(--tinta);cursor:pointer;transition:border-color .15s ease,background .15s ease}
 .ar-opcao:hover{border-color:var(--rosa)}
 .ar-opcao.ativa{background:var(--tinta);border-color:var(--tinta);color:#fff}
+.ar-dica{font-size:12.5px;color:var(--cinza);line-height:1.45}
+.ar-abrir-ajuste{background:transparent;border:0;padding:0;font-family:var(--corpo);font-size:12.5px;font-weight:700;color:var(--rosa);text-decoration:underline;cursor:pointer}
 .ar-calibragem{display:grid;gap:10px;text-align:left;background:var(--fundo-alt);border-radius:12px;padding:14px 16px}
+.ar-calibragem[hidden]{display:none}
 .ar-slider{display:flex;flex-direction:column;gap:4px}
 .ar-slider label{font-size:11.5px;color:var(--cinza);display:flex;justify-content:space-between}
 .ar-slider input{width:100%;accent-color:var(--rosa)}
@@ -366,28 +369,27 @@ body.quiz-travado{overflow:hidden}
 
       <div class="ar-controles" id="arControles" hidden>
         <div class="ar-linha">
-          <button class="ar-opcao ativa" data-modelo="grau">Óculos de grau</button>
-          <button class="ar-opcao" data-modelo="sol">Óculos de sol</button>
-          <button class="ar-opcao" data-modelo="m2">Estilo 2</button>
-          <button class="ar-opcao" data-modelo="m3">Estilo 3</button>
-          <button class="ar-opcao" data-modelo="m5">Estilo 5</button>
+          <button class="ar-opcao ativa" data-modelo="m2">Estilo 1</button>
+          <button class="ar-opcao" data-modelo="m5">Estilo 2</button>
         </div>
-        <div class="ar-calibragem">
+        <p class="ar-dica">O óculos se ajusta sozinho ao seu rosto. Se não encaixar direito, mexa a cabeça devagar até centralizar, ou <button type="button" class="ar-abrir-ajuste" id="arAbrirAjuste">ajuste manualmente</button>.</p>
+
+        <div class="ar-calibragem" id="arCalibragem" hidden>
           <div class="ar-slider">
-            <label><span>Altura</span><span id="arValAltura">44</span></label>
-            <input type="range" id="arAltura" min="-150" max="150" value="44" step="1">
+            <label><span>Altura</span><span id="arValAltura">81</span></label>
+            <input type="range" id="arAltura" min="-150" max="150" value="81" step="1">
           </div>
           <div class="ar-slider">
-            <label><span>Horizontal</span><span id="arValHorizontal">0</span></label>
-            <input type="range" id="arHorizontal" min="-150" max="150" value="0" step="1">
+            <label><span>Horizontal</span><span id="arValHorizontal">-1</span></label>
+            <input type="range" id="arHorizontal" min="-150" max="150" value="-1" step="1">
           </div>
           <div class="ar-slider">
-            <label><span>Tamanho</span><span id="arValTamanho">100%</span></label>
-            <input type="range" id="arTamanho" min="10" max="300" value="100" step="5">
+            <label><span>Tamanho</span><span id="arValTamanho">30%</span></label>
+            <input type="range" id="arTamanho" min="10" max="300" value="30" step="5">
           </div>
           <div class="ar-slider">
-            <label><span>Profundidade</span><span id="arValProfundidade">35</span></label>
-            <input type="range" id="arProfundidade" min="0" max="80" value="35" step="1">
+            <label><span>Profundidade</span><span id="arValProfundidade">0</span></label>
+            <input type="range" id="arProfundidade" min="0" max="80" value="0" step="1">
           </div>
         </div>
       </div>
@@ -957,6 +959,8 @@ const GOOGLE_SHEETS_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbzvJm
   const msg = document.getElementById('arMsg');
   const botaoAtivar = document.getElementById('arAtivar');
   const controles = document.getElementById('arControles');
+  const calibragem = document.getElementById('arCalibragem');
+  const abrirAjuste = document.getElementById('arAbrirAjuste');
   const sliderAltura = document.getElementById('arAltura');
   const sliderHorizontal = document.getElementById('arHorizontal');
   const sliderTamanho = document.getElementById('arTamanho');
@@ -966,10 +970,10 @@ const GOOGLE_SHEETS_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbzvJm
   const valTamanho = document.getElementById('arValTamanho');
   const valProfundidade = document.getElementById('arValProfundidade');
 
-  let modeloAtual = 'grau';
+  let modeloAtual = 'm2';
   let THREECAMERA = null;
   let ajuste = null;
-  let LARGURA_ALVO = null; // largura de referência, definida pelo primeiro modelo (óculos de grau)
+  let LARGURA_ALVO = null; // largura de referência, definida pelo primeiro modelo carregado (m2)
   const grupos = {}; // id do modelo -> THREE.Object3D (visibilidade alternada)
 
   // a altura e a profundidade não dá pra descobrir só olhando a geometria
@@ -977,12 +981,10 @@ const GOOGLE_SHEETS_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbzvJm
   // por isso continuam com um chute inicial compartilhado, ajustável ao vivo.
   // Tamanho e posição horizontal agora são calculados automaticamente (função
   // autoencaixar), então começam neutros (100% / 0) pra todo mundo.
+  // valores calibrados a olho num rosto real, um conjunto por modelo
   const presets = {
-    grau: { altura: 44, horizontal: 0, tamanho: 100, profundidade: 35 },
-    sol:  { altura: 44, horizontal: 0, tamanho: 100, profundidade: 35 },
-    m2:   { altura: 44, horizontal: 0, tamanho: 100, profundidade: 35 },
-    m3:   { altura: 44, horizontal: 0, tamanho: 100, profundidade: 35 },
-    m5:   { altura: 44, horizontal: 0, tamanho: 100, profundidade: 35 }
+    m2: { altura: 81, horizontal: -1, tamanho: 30, profundidade: 0 },
+    m5: { altura: 72, horizontal: 0,  tamanho: 30, profundidade: 52 }
   };
 
   document.querySelectorAll('[data-modelo]').forEach(function(b){
@@ -992,6 +994,12 @@ const GOOGLE_SHEETS_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbzvJm
       trocarModelo(b.dataset.modelo);
     });
   });
+  // sliders começam escondidos: só aparecem se a pessoa pedir pra ajustar
+  abrirAjuste.addEventListener('click', function(){
+    calibragem.hidden = !calibragem.hidden;
+    abrirAjuste.textContent = calibragem.hidden ? 'ajuste manualmente' : 'esconder ajuste';
+  });
+
   sliderAltura.addEventListener('input', function(){
     valAltura.textContent = sliderAltura.value;
     atualizarAjuste();
@@ -1109,42 +1117,9 @@ const GOOGLE_SHEETS_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbzvJm
     oclusor.scale.multiplyScalar(0.0084);
     threeStuffs.faceObject.add(oclusor);
 
-    // óculos de grau + de sol vêm do mesmo arquivo (dois objetos dentro dele),
-    // cada um vira seu próprio grupo pra poder ser encaixado independente
-    new THREE.GLTFLoader().load('modelos/oculos-1/scene.gltf', function(gltf){
-      const nodeGrau = gltf.scene.getObjectByName('Glasses_1');
-      const nodeSol = gltf.scene.getObjectByName('Shade_3');
-      if (!nodeGrau || !nodeSol) {
-        msg.textContent = 'O modelo 3D carregou, mas não encontrei os objetos esperados dentro dele.';
-        return;
-      }
-      // no arquivo original os dois ficam lado a lado (foto de produto);
-      // zeramos a posição/rotação de cada um antes de medir e encaixar.
-      nodeGrau.position.set(0, 0, 0); nodeGrau.quaternion.set(0, 0, 0, 1);
-      nodeSol.position.set(0, 0, 0);  nodeSol.quaternion.set(0, 0, 0, 1);
-
-      const grupoGrau = new THREE.Object3D();
-      ajuste.add(grupoGrau);
-      grupoGrau.add(nodeGrau);
-      autoencaixar(grupoGrau, nodeGrau); // define LARGURA_ALVO (referência pros outros modelos)
-      grupos.grau = grupoGrau;
-
-      const grupoSol = new THREE.Object3D();
-      ajuste.add(grupoSol);
-      grupoSol.add(nodeSol);
-      autoencaixar(grupoSol, nodeSol);
-      grupos.sol = grupoSol;
-
-      atualizarVisibilidade();
-
-      // só carrega os demais modelos depois de ter a referência de largura
-      carregarModeloSimples('m2', 'modelos/oculos-2/scene.gltf');
-      carregarModeloSimples('m3', 'modelos/oculos-3/scene.gltf');
-      carregarModeloSimples('m5', 'modelos/oculos-5/scene.gltf');
-    }, undefined, function(erro){
-      const detalhe = (erro && (erro.message || erro.target && erro.target.src)) || JSON.stringify(erro);
-      msg.textContent = 'Não consegui carregar o modelo 3D da armação. Detalhe: ' + detalhe;
-    });
+    // primeiro modelo carregado define LARGURA_ALVO (referência de escala pro outro)
+    carregarModeloSimples('m2', 'modelos/oculos-2/scene.gltf');
+    carregarModeloSimples('m5', 'modelos/oculos-5/scene.gltf');
 
     aplicarPreset(presets[modeloAtual]);
     atualizarAjuste();
