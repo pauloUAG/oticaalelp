@@ -973,7 +973,11 @@ const GOOGLE_SHEETS_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbzvJm
   let modeloAtual = 'm2';
   let THREECAMERA = null;
   let ajuste = null;
-  let LARGURA_ALVO = null; // largura de referência, definida pelo primeiro modelo carregado (m2)
+  // Largura de referência fixa: todo modelo é reescalado pra bater com ela.
+  // O valor (4.7736) é a largura bruta do modelo que servia de referência quando a
+  // calibragem dos presets foi feita. Deixar fixo em vez de "o primeiro que carregar"
+  // garante que trocar/remover modelos não muda o tamanho dos outros no rosto.
+  let LARGURA_ALVO = 4.7736;
   const grupos = {}; // id do modelo -> THREE.Object3D (visibilidade alternada)
 
   // a altura e a profundidade não dá pra descobrir só olhando a geometria
@@ -1075,7 +1079,6 @@ const GOOGLE_SHEETS_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbzvJm
     caixa.getSize(tamanho);
     caixa.getCenter(centro);
     const larguraBruta = tamanho.x || 1;
-    if (!LARGURA_ALVO) LARGURA_ALVO = larguraBruta; // o primeiro a chamar vira a referência
     const escalaAuto = LARGURA_ALVO / larguraBruta;
     grupo.scale.setScalar(escalaAuto);
     grupo.position.set(-centro.x * escalaAuto, -centro.y * escalaAuto, 0);
