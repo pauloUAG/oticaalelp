@@ -227,6 +227,8 @@ body.quiz-travado{overflow:hidden}
   border:1px solid var(--linha);box-shadow:0 26px 36px -24px rgba(35,35,35,.18);transition:transform .18s ease}
 .print-item:hover{transform:translateY(-3px)}
 .print-item img{display:block;width:100%}
+.print-item video{display:block;width:100%}
+.print-video-som{position:absolute;bottom:10px;right:10px;width:32px;height:32px;border-radius:50%;background:rgba(35,35,35,.65);color:#fff;border:0;font-size:14px;display:flex;align-items:center;justify-content:center;cursor:pointer}
 
 /* lightbox sem JS, via :target */
 .lightbox-alvo{display:none;position:fixed;inset:0;z-index:200;align-items:center;justify-content:center;padding:30px}
@@ -451,24 +453,30 @@ body.quiz-travado{overflow:hidden}
     <h2 class="secao-titulo">ELAS SAÍRAM DAQUI ENTENDENDO O QUE COMPRARAM</h2>
 
     <div class="galeria-prints">
-      <a href="#print-1" class="print-item"><img src="prints/print-1.jpeg" alt="[Substituir por depoimento real de cliente Ótica Alê]" loading="lazy"></a>
-      <a href="#print-2" class="print-item"><img src="prints/print-2.jpeg" alt="[Substituir por depoimento real de cliente Ótica Alê]" loading="lazy"></a>
-      <a href="#print-3" class="print-item"><img src="prints/print-3.webp" alt="[Substituir por depoimento real de cliente Ótica Alê]" loading="lazy"></a>
-      <a href="#print-4" class="print-item"><img src="prints/print-4.jpeg" alt="[Substituir por depoimento real de cliente Ótica Alê]" loading="lazy"></a>
-      <a href="#print-5" class="print-item"><img src="prints/print-5.jpeg" alt="[Substituir por depoimento real de cliente Ótica Alê]" loading="lazy"></a>
-      <a href="#print-6" class="print-item"><img src="prints/print-6.jpeg" alt="[Substituir por depoimento real de cliente Ótica Alê]" loading="lazy"></a>
-      <a href="#print-7" class="print-item"><img src="prints/print-7.jpg" alt="[Substituir por depoimento real de cliente Ótica Alê]" loading="lazy"></a>
+      <a href="#print-1" class="print-item"><img src="prints/print1.jpeg" alt="Depoimento de cliente Agatha: o óculos chegou tudo certinho, muito obrigada eu amei" loading="lazy"></a>
+      <a href="#print-2" class="print-item"><img src="prints/print2.jpeg" alt="Depoimento de cliente Izana Sampaio: eu amei, sempre compro com vocês" loading="lazy"></a>
+      <a href="#print-3" class="print-item"><img src="prints/print3.jpeg" alt="Depoimento de cliente Thainá Blasques: recebi sim, obrigada pelo atendimento, parabéns pelo capricho" loading="lazy"></a>
+      <a href="#print-4" class="print-item"><img src="prints/print4.jpg" alt="Depoimento de cliente com óculos de sol: já peguei meu óculos, eu amei demais, como sempre" loading="lazy"></a>
+      <div class="print-item print-item-video">
+        <video src="prints/print5.mp4" muted autoplay loop playsinline preload="metadata"></video>
+        <button type="button" class="print-video-som" aria-label="Ativar som do vídeo">🔇</button>
+      </div>
+      <div class="print-item print-item-video">
+        <video src="prints/print6.mp4" muted autoplay loop playsinline preload="metadata"></video>
+        <button type="button" class="print-video-som" aria-label="Ativar som do vídeo">🔇</button>
+      </div>
+      <div class="print-item print-item-video">
+        <video src="prints/print7.mp4" muted autoplay loop playsinline preload="metadata"></video>
+        <button type="button" class="print-video-som" aria-label="Ativar som do vídeo">🔇</button>
+      </div>
     </div>
   </div>
 
   <!-- Lightbox: mesma imagem ampliada, sem depender de JavaScript -->
-  <div class="lightbox-alvo" id="print-1"><a href="#" class="lightbox-fundo" aria-label="Fechar"></a><div class="lightbox-conteudo"><a href="#" class="lightbox-fechar" aria-label="Fechar">&times;</a><img src="prints/print-1.jpeg" alt=""></div></div>
-  <div class="lightbox-alvo" id="print-2"><a href="#" class="lightbox-fundo" aria-label="Fechar"></a><div class="lightbox-conteudo"><a href="#" class="lightbox-fechar" aria-label="Fechar">&times;</a><img src="prints/print-2.jpeg" alt=""></div></div>
-  <div class="lightbox-alvo" id="print-3"><a href="#" class="lightbox-fundo" aria-label="Fechar"></a><div class="lightbox-conteudo"><a href="#" class="lightbox-fechar" aria-label="Fechar">&times;</a><img src="prints/print-3.webp" alt=""></div></div>
-  <div class="lightbox-alvo" id="print-4"><a href="#" class="lightbox-fundo" aria-label="Fechar"></a><div class="lightbox-conteudo"><a href="#" class="lightbox-fechar" aria-label="Fechar">&times;</a><img src="prints/print-4.jpeg" alt=""></div></div>
-  <div class="lightbox-alvo" id="print-5"><a href="#" class="lightbox-fundo" aria-label="Fechar"></a><div class="lightbox-conteudo"><a href="#" class="lightbox-fechar" aria-label="Fechar">&times;</a><img src="prints/print-5.jpeg" alt=""></div></div>
-  <div class="lightbox-alvo" id="print-6"><a href="#" class="lightbox-fundo" aria-label="Fechar"></a><div class="lightbox-conteudo"><a href="#" class="lightbox-fechar" aria-label="Fechar">&times;</a><img src="prints/print-6.jpeg" alt=""></div></div>
-  <div class="lightbox-alvo" id="print-7"><a href="#" class="lightbox-fundo" aria-label="Fechar"></a><div class="lightbox-conteudo"><a href="#" class="lightbox-fechar" aria-label="Fechar">&times;</a><img src="prints/print-7.jpg" alt=""></div></div>
+  <div class="lightbox-alvo" id="print-1"><a href="#" class="lightbox-fundo" aria-label="Fechar"></a><div class="lightbox-conteudo"><a href="#" class="lightbox-fechar" aria-label="Fechar">&times;</a><img src="prints/print1.jpeg" alt=""></div></div>
+  <div class="lightbox-alvo" id="print-2"><a href="#" class="lightbox-fundo" aria-label="Fechar"></a><div class="lightbox-conteudo"><a href="#" class="lightbox-fechar" aria-label="Fechar">&times;</a><img src="prints/print2.jpeg" alt=""></div></div>
+  <div class="lightbox-alvo" id="print-3"><a href="#" class="lightbox-fundo" aria-label="Fechar"></a><div class="lightbox-conteudo"><a href="#" class="lightbox-fechar" aria-label="Fechar">&times;</a><img src="prints/print3.jpeg" alt=""></div></div>
+  <div class="lightbox-alvo" id="print-4"><a href="#" class="lightbox-fundo" aria-label="Fechar"></a><div class="lightbox-conteudo"><a href="#" class="lightbox-fechar" aria-label="Fechar">&times;</a><img src="prints/print4.jpg" alt=""></div></div>
 </section>
 
 <section class="secao secao-alt" id="oferta">
@@ -544,10 +552,6 @@ body.quiz-travado{overflow:hidden}
       <details>
         <summary>Quanto custa um óculos completo?</summary>
         <p>Depende do seu grau e da lente que faz sentido pro seu caso. Por isso, qualquer número antes do exame seria chute. O que a gente garante é que você escolhe dentro do valor que definir. Se quiser adiantar a conversa, chame a gente no WhatsApp.</p>
-      </details>
-      <details>
-        <summary>Quanto tempo demora o exame?</summary>
-        <p>Cerca de 20 minutos.</p>
       </details>
       <details>
         <summary>Quanto tempo demora para o óculos ficar pronto?</summary>
@@ -633,6 +637,19 @@ const GOOGLE_SHEETS_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbzvJm
       comandoPlayer('unMute');
       comandoPlayer('playVideo');
       botaoSom.classList.add('ativado');
+    });
+  });
+})();
+
+// ---- prints de vídeo (depoimentos): toque no botão liga/desliga o som ----
+(function(){
+  document.querySelectorAll('.print-item-video').forEach(function(item){
+    const video = item.querySelector('video');
+    const botao = item.querySelector('.print-video-som');
+    if (!video || !botao) return;
+    botao.addEventListener('click', function(){
+      video.muted = !video.muted;
+      botao.textContent = video.muted ? '🔇' : '🔊';
     });
   });
 })();
