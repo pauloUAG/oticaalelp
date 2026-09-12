@@ -496,7 +496,7 @@ body.quiz-travado{overflow:hidden}
     <button type="button" class="quiz-fechar" id="quizFechar" aria-label="Fechar">&times;</button>
     <div class="quiz" id="quiz">
       <p class="quiz-selo-sigilo">🔒 100% sigiloso</p>
-      <p class="quiz-intro">Responda essas 5 perguntas rápidas antes de falar com a gente — assim já te atendemos preparados no WhatsApp.</p>
+      <p class="quiz-intro">Responda essas 6 perguntas rápidas antes de falar com a gente — assim já te atendemos preparados no WhatsApp.</p>
       <div class="quiz-progresso-track"><div class="quiz-progresso-fill" id="quizProgressoFill"></div></div>
       <p class="quiz-progresso">
         <span id="quizProgressoTexto">Pergunta 1 de 5</span>
@@ -611,7 +611,7 @@ const WHATSAPP_MENSAGEM = 'Olá! Quero marcar meu exame de vista na Ótica Alê.
 // ---- CONFIGURAÇÃO: URL do Web App do Google Apps Script (planilha de leads do quiz) ----
 // [CONFIRMAR: colar aqui a URL gerada em "Implantar > Nova implantação > App da Web" depois
 // de criar a planilha e colar o script — veja as instruções enviadas separadamente]
-const GOOGLE_SHEETS_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbzvJmFPwR1OtmrInZELLQc-Ad5ZjN7WD_9-3CnNJ6tRh45qbkQ4PJyrG15nOCG6wt_q/exec';
+const GOOGLE_SHEETS_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbyPde4SQj14GqBHcRvXu3dlbL8-bZoOq129JEKNDejeyrCQeNMhcI-ckbPcuuThTqb2/exec';
 
 // ---- vídeos da página: toque na tela ativa o som (chegam mudos, por autoplay) ----
 (function(){
@@ -694,6 +694,12 @@ const GOOGLE_SHEETS_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbzvJm
         { emoji: '🔥', texto: 'Essa semana', pontos: 3 },
         { emoji: '🗓️', texto: 'Próxima semana', pontos: 2 },
         { emoji: '🤷', texto: 'Ainda estou decidindo', pontos: 1 }
+      ] },
+    // as duas opções valem o mesmo: escolher manhã ou tarde não diz nada sobre
+    // intenção de compra, então a pergunta soma no total sem distorcer o ranking
+    { chave: 'Melhor horário de contato', pergunta: 'Qual o melhor horário pra gente falar com você?', opcoes: [
+        { emoji: '🌅', texto: 'De manhã', pontos: 1 },
+        { emoji: '🌇', texto: 'À tarde', pontos: 1 }
       ] }
   ];
   const TOTAL_PASSOS = QUIZ_PERGUNTAS.length + 1; // +1 = passo final de contato
@@ -731,9 +737,11 @@ const GOOGLE_SHEETS_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbzvJm
     return Object.keys(pontosPorPergunta).reduce(function(soma, chave){ return soma + pontosPorPergunta[chave]; }, 0);
   }
 
+  // faixas deslocadas em +1 junto com a pergunta de horário (que dá 1 ponto a todo
+  // mundo), pra classificação continuar equivalente à de antes. Total possível: 4 a 10.
   function calcularTemperatura(pontos){
-    if (pontos >= 7) return 'Quente';
-    if (pontos >= 5) return 'Morno';
+    if (pontos >= 8) return 'Quente';
+    if (pontos >= 6) return 'Morno';
     return 'Frio';
   }
 
