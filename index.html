@@ -190,6 +190,14 @@ body.quiz-travado{overflow:hidden}
 .quiz-aviso-fds{background:#FFF4D6;border:1.5px solid #E8C86A;border-left:4px solid #D9A62E;border-radius:12px;padding:12px 14px;margin-bottom:18px;font-size:13.5px;line-height:1.45;color:#5A4410}
 .quiz-aviso-fds strong{color:#3E2E08}
 
+/* ---- tela de confirmação, depois do envio ---- */
+.quiz-confirmacao{text-align:center;padding:8px 0 4px}
+.quiz-confirmacao-icone{width:56px;height:56px;border-radius:50%;background:var(--verde);color:#fff;font-size:28px;font-weight:700;display:flex;align-items:center;justify-content:center;margin:0 auto 16px}
+.quiz-confirmacao-titulo{font-family:var(--display);font-size:21px;font-weight:600;line-height:1.25;margin-bottom:8px}
+.quiz-confirmacao-texto{font-size:15px;color:var(--cinza);line-height:1.5;margin-bottom:22px}
+.quiz-confirmacao-texto strong{color:var(--tinta)}
+.quiz-confirmacao-ou{font-size:13px;color:var(--cinza);margin-bottom:10px}
+
 /* ---- passo final: campo de telefone pra deixar contato ---- */
 .quiz-telefone-rotulo{font-family:var(--display);font-size:16px;font-weight:600;margin-bottom:10px}
 .quiz-telefone-grupo{display:flex;gap:8px}
@@ -606,11 +614,19 @@ body.quiz-travado{overflow:hidden}
 <script src="libs/jeeliz/JeelizThreeHelper.js"></script>
 <script src="libs/jeeliz/JeelizResizer.js"></script>
 <script>
-// ---- CONFIGURAÇÃO: troque aqui o número do WhatsApp (com DDI+DDD, só dígitos) ----
-// Sem o nono dígito de propósito: a conta da Ótica Alê está registrada assim no
+// ---- CONFIGURAÇÃO: números do WhatsApp por cidade (com DDI+DDD, só dígitos) ----
+// Sem o nono dígito de propósito: as contas da Ótica Alê estão registradas assim no
 // WhatsApp (validado em wa.me). Com o 9 na frente o link cai em "número inválido".
-const WHATSAPP_NUMERO = '559182584666';
-const WHATSAPP_MENSAGEM = 'Olá! Quero marcar meu exame de vista na Ótica Alê.';
+// As chaves precisam bater exatamente com as opções da pergunta "Cidade" do quiz.
+const WHATSAPP_POR_CIDADE = {
+  'Belém':      '559182584666',
+  'Ananindeua': '559182584666',
+  'Castanhal':  '559185341521'
+};
+const WHATSAPP_NUMERO = '559182584666'; // padrão, caso a cidade não seja reconhecida
+// {cidade} é trocado pela cidade respondida no quiz. Se não houver cidade, usa a versão sem ela.
+const WHATSAPP_MENSAGEM = 'Olá! Sou de {cidade}, encontrei a página da ótica e queria saber mais sobre as ofertas.';
+const WHATSAPP_MENSAGEM_SEM_CIDADE = 'Olá! Encontrei a página da ótica e queria saber mais sobre as ofertas.';
 
 // ---- CONFIGURAÇÃO: URL do Web App do Google Apps Script (planilha de leads do quiz) ----
 // [CONFIRMAR: colar aqui a URL gerada em "Implantar > Nova implantação > App da Web" depois
@@ -817,8 +833,13 @@ const GOOGLE_SHEETS_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbyPde
   }
 
   function montarLinkWhatsapp(){
-    // mensagem só com o texto padrão — as respostas do quiz vão pra planilha, não pro WhatsApp
-    return 'https://wa.me/' + WHATSAPP_NUMERO + '?text=' + encodeURIComponent(WHATSAPP_MENSAGEM);
+    // número e mensagem escolhidos pela cidade respondida no quiz; caem no padrão se não reconhecer
+    const cidade = respostas['Cidade'];
+    const numero = WHATSAPP_POR_CIDADE[cidade] || WHATSAPP_NUMERO;
+    const mensagem = cidade
+      ? WHATSAPP_MENSAGEM.replace('{cidade}', cidade)
+      : WHATSAPP_MENSAGEM_SEM_CIDADE;
+    return 'https://wa.me/' + numero + '?text=' + encodeURIComponent(mensagem);
   }
 
   function renderPergunta(){
@@ -910,28 +931,77 @@ const GOOGLE_SHEETS_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbyPde
       erroTelefone.hidden = true;
     });
 
-    const link = document.createElement('a');
-    link.className = 'btn btn-whatsapp btn-bloco';
-    link.innerHTML = ICONE_WHATSAPP + 'Falar no WhatsApp agora';
-    link.href = montarLinkWhatsapp();
-    link.addEventListener('click', function(e){
+    // botão principal: só grava o lead (planilha + Meta) e mostra a confirmação.
+    // Abrir o WhatsApp vira opção na tela seguinte, não pré-requisito do envio.
+    const enviar = document.createElement('button');
+    enviar.type = 'button';
+    enviar.className = 'btn btn-principal btn-bloco';
+    enviar.textContent = 'Quero ser atendido';
+    enviar.addEventListener('click', function(){
       const somenteDigitos = telefoneDigitado.replace(/\D/g, '');
       if (somenteDigitos.length < 10) {
-        e.preventDefault();
         erroTelefone.hidden = false;
         inputTelefone.focus();
         return;
       }
+      enviar.disabled = true; // evita clique duplo = linha duplicada na planilha
       enviarLead('quiz-completo');
       dispararConversaoLead();
-      fecharModal();
+      renderConfirmacao();
     });
-    wrap.appendChild(link);
+    wrap.appendChild(enviar);
 
     const nota = document.createElement('p');
     nota.className = 'quiz-telefone-nota';
     nota.innerHTML = '🔒 Seu número é usado só para esse atendimento. A gente te chama no WhatsApp — 100% sigiloso.';
     wrap.appendChild(nota);
+
+    corpo.innerHTML = '';
+    corpo.appendChild(wrap);
+  }
+
+  function renderConfirmacao(){
+    atualizarProgresso(TOTAL_PASSOS, 'Tudo certo');
+    btnVoltar.hidden = true; // já enviou: voltar e reenviar duplicaria o lead
+
+    const horario = (respostas['Melhor horário de contato'] || '').toLowerCase();
+    const dia = new Date().getDay();
+    const fimDeSemana = (dia === 0 || dia === 6);
+    let quando;
+    if (fimDeSemana) quando = 'na segunda-feira' + (horario ? ', ' + horario : '');
+    else quando = horario || 'em breve';
+
+    const wrap = document.createElement('div');
+    wrap.className = 'quiz-confirmacao';
+
+    const icone = document.createElement('div');
+    icone.className = 'quiz-confirmacao-icone';
+    icone.setAttribute('aria-hidden', 'true');
+    icone.textContent = '✓';
+    wrap.appendChild(icone);
+
+    const titulo = document.createElement('p');
+    titulo.className = 'quiz-confirmacao-titulo';
+    titulo.textContent = 'Pronto! Recebemos seu contato.';
+    wrap.appendChild(titulo);
+
+    const texto = document.createElement('p');
+    texto.className = 'quiz-confirmacao-texto';
+    texto.innerHTML = 'A gente te chama no WhatsApp <strong>' + quando + '</strong>.';
+    wrap.appendChild(texto);
+
+    const ou = document.createElement('p');
+    ou.className = 'quiz-confirmacao-ou';
+    ou.textContent = 'Prefere falar agora?';
+    wrap.appendChild(ou);
+
+    const link = document.createElement('a');
+    link.className = 'btn btn-whatsapp btn-bloco';
+    link.innerHTML = ICONE_WHATSAPP + 'Abrir WhatsApp';
+    link.href = montarLinkWhatsapp();
+    link.target = '_blank';
+    link.rel = 'noopener';
+    wrap.appendChild(link);
 
     corpo.innerHTML = '';
     corpo.appendChild(wrap);
