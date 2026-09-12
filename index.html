@@ -186,6 +186,10 @@ body.quiz-travado{overflow:hidden}
 .quiz-resumo p{font-size:13.5px;color:var(--cinza);margin-bottom:4px}
 .quiz-resumo p strong{color:var(--tinta)}
 
+/* ---- aviso de fim de semana (só aparece sáb/dom) ---- */
+.quiz-aviso-fds{background:#FFF4D6;border:1.5px solid #E8C86A;border-left:4px solid #D9A62E;border-radius:12px;padding:12px 14px;margin-bottom:18px;font-size:13.5px;line-height:1.45;color:#5A4410}
+.quiz-aviso-fds strong{color:#3E2E08}
+
 /* ---- passo final: campo de telefone pra deixar contato ---- */
 .quiz-telefone-rotulo{font-family:var(--display);font-size:16px;font-weight:600;margin-bottom:10px}
 .quiz-telefone-grupo{display:flex;gap:8px}
@@ -864,6 +868,15 @@ const GOOGLE_SHEETS_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbyPde
       resumo.appendChild(linha);
     });
     wrap.appendChild(resumo);
+
+    // aviso de fim de semana: só aparece sábado (6) e domingo (0), pelo relógio de quem está preenchendo
+    const diaSemana = new Date().getDay();
+    if (diaSemana === 0 || diaSemana === 6) {
+      const aviso = document.createElement('p');
+      aviso.className = 'quiz-aviso-fds';
+      aviso.innerHTML = '<span aria-hidden="true">📅</span> <strong>É fim de semana:</strong> cadastros feitos hoje são respondidos na segunda-feira, o mais cedo possível.';
+      wrap.appendChild(aviso);
+    }
 
     const rotuloTelefone = document.createElement('p');
     rotuloTelefone.className = 'quiz-telefone-rotulo';
